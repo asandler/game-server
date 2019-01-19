@@ -1,0 +1,106 @@
+#!/usr/bin/env ruby
+
+$pool = Hash.new
+$pool.default = false
+STDOUT.sync = true
+turn, winner, $score = 1, nil, [0, 0]
+$moves = [0, 0, 0]
+
+$snakes = [[], [[3, 0], [2, 0], [1, 0], [0, 0]], [[26, 39], [27, 39], [28, 39], [29, 39]]]
+$directions = [[], [1, 0], [-1, 0]]
+$r_rot = {[1, 0] => [0, -1], [0, -1] => [-1, 0], [-1, 0] => [0, 1], [0, 1] => [1, 0]}
+$l_rot = {[1, 0] => [0, 1], [0, 1] => [-1, 0], [-1, 0] => [0, -1], [0, -1] => [1, 0]}
+$grow_queues = [[], [], []]
+
+class Hash
+    def win turn
+        return $snakes[turn].length - 4 if turn
+        if (not $pool.has_value? 1 and $grow_queues[1].compact.empty? and $grow_queues[2].compact.empty?) or ($moves[2] > 300)
+            $score = [$snakes[1].length - 4, $snakes[2].length - 4]
+            return [0, 1, 2][$score[0] <=> $score[1]]
+        end
+        nil
+    end
+
+    def formprint
+        (0..29).each do |i|
+            (0..39).each do |j|
+                if $snakes[1].include? [i, j] or $snakes[2].include? [i, j]
+                    STDERR.print "*" if $snakes[1].include? [i, j]
+                    STDERR.print "%" if $snakes[2].include? [i, j]
+                else
+                    STDERR.print self[[i,j]]
+                end
+            end
+            STDERR.puts
+        end
+        sleep 0.5
+    end
+end
+
+class Array
+    def coord_sum a
+        ans = []
+        (0..self.length - 1).each{ |i| ans << self[i] + a[i] }
+        ans
+    end
+end
+
+def final winner
+    if winner and $score
+        main_score = ["1:1", "2:0", "0:2"][$score[0] <=> $score[1]]
+        second_score = $score[0].to_s + ':' + $score[1].to_s
+        return main_score + " (" + second_score + ")"
+    else
+        return ''
+    end
+end
+
+def valid(s, turn)
+    $moves[turn] += 1
+    return false if !['F', 'L', 'R'].include?(s)
+    $directions[turn] = $l_rot[$directions[turn]] if s == 'L'
+    $directions[turn] = $r_rot[$directions[turn]] if s == 'R'
+    head = $snakes[turn][0].coord_sum $directions[turn]
+    return false if $snakes[3 - turn].include? head or not $pool[head]
+    $grow_queues[turn][$snakes[turn].length + $grow_queues[turn].compact.length] = $pool[head] == 1 ? head : nil
+    $pool[head] = 0 if $pool[head] == 1
+    $snakes[turn].pop if not $grow_queues[turn].shift
+    return false if $snakes[turn].include? head
+    $snakes[turn].unshift head
+    true
+end
+
+while true 
+    case (s = gets.chomp)[0]
+    when 'i' then
+        winner ||= 3 - turn
+        $score[turn - 1] = -1
+        $score[2 - turn] = $pool.win(3 - turn)
+        print winner.to_s + final(winner) + "\n"
+    when 'f' then
+        winner ||= $pool.win
+        print winner.to_s + final(winner) + "\n"
+    when 'c' then
+        gets
+        30.times do |i|
+            gets.chomp.each_char.map{|c| c.to_i}.each_with_index{ |val, j| $pool[[i, j]] = val }
+        end
+        puts "OK"
+    else
+        s = s[1..-1]
+        if (!winner and valid(s, turn))
+            turn = 3 - turn
+            if winner ||= $pool.win(nil)
+                print winner.to_s + final(winner) + "\n"
+            else
+                print " " + s + "\n"
+            end
+        else
+            winner ||= 3 - turn
+            $score[turn - 1] = -1
+            $score[2 - turn] = $pool.win(3 - turn)
+            print "i" + final(winner) + "\n"
+        end
+    end
+end

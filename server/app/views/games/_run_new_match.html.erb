@@ -1,0 +1,17 @@
+<center>
+    <% if @send_delay_info == 1 %>
+        Вы исчерпали лимит посылок в день (<%= Rails.application.config.sends_per_day%>). Загрузить новую версию можно будет после 0:00.
+    <% elsif @send_delay_info == 2 %>
+        Следующая посылка возможна через <%= current_user.next_send_timestamp.to_time.to_i - Time.now.to_i %> секунд.
+    <% else %>
+        Запустить матч:
+        <br>
+        <%= form_tag({:action => 'new_match', :controller => 'games'}) do |f| %>
+            <%= hidden_field_tag 'game', current_game %>
+            <%= select_tag 'first', options_for_select(@files_array), :style => 'width: 90%;' %><br>
+            <%= select_tag 'second', options_for_select(@test_array), :style => 'width: 90%;' %><br>
+            <%= text_field 'count', '', :style => 'width: 88%;', :placeholder => 'Количество матчей (<= 5)' %><br>
+            <%= button_tag 'Запустить' %>
+        <% end %>
+    <% end %>
+</center>

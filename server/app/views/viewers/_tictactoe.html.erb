@@ -1,0 +1,142 @@
+<center>
+    <table cellspacing=0 cellpadding=0 style="border-collapse: collapse; border: 4px solid black;">
+        <% 3.times do |i| %>
+            <tr>
+            <% 3.times do |j| %>
+                <td class="rsquare cell-tictactoe" id="t<%=i%><%=j%>">
+                    <%= image_tag('viewers/tictactoe/empty.png', :border => 0, :alt => 'E', :width => 40, :height => 40) %>
+                </td>
+            <% end %>
+            </tr>
+        <% end %>
+    </table>
+    <br>
+    <div id="messages">
+    </div>
+</center>
+
+<%= javascript_tag do %>
+
+    var tictactoe = {};
+
+    (function(context) {
+        function coords(cell) {
+            return parseInt(cell.id.substr(1,1)) * 3 + parseInt(cell.id.substr(2,1));
+        }
+    
+        var images = [
+            '<%= asset_path('viewers/tictactoe/null.png') %>',
+            '<%= asset_path('viewers/tictactoe/empty.png') %>',
+            '<%= asset_path('viewers/tictactoe/cross.png') %>'
+        ];
+    
+        function drawall(board) {
+            $('.cell-tictactoe').each(function() {
+                $(this).find('img').attr('src', images[board.state(coords(this)) + 1]);
+            });
+        }
+
+        function board() {
+            this.whosemove = 1;
+            this.state_vector = [
+                0, 0, 0,
+                0, 0, 0,
+                0, 0, 0
+            ];
+        }
+    
+        board.prototype.state = function(c) {
+            return this.state_vector[c];
+        }
+     
+        board.prototype.setstate = function(c, s) {
+            this.state_vector[c] = s;
+        }
+
+        board.prototype.domove = function(c) {
+            if (this.state(c) != 0) {
+                return false;
+            }
+            this.setstate(c, this.whosemove);
+            this.whosemove = -this.whosemove;
+            return true;
+        }
+    
+        context.show_game = function(lines) {
+            var mainboard = new board();
+            var i = 0;
+            var names = ["Draw", "", ""];
+            var match_names = ["Draw", "", ""];
+            var messages = document.getElementById('messages');
+            messages.innerHTML = "";
+            var alert_message = "";
+
+            var timer = setInterval(function() {
+                if (lines[i].indexOf("1 >>") < 0 && lines[i].indexOf("1 <<") < 0 && lines[i].indexOf("2 >>") < 0 && lines[i].indexOf("2 <<") < 0) {
+                    if (lines[i].indexOf("match:") >= 0) {
+                        messages.innerHTML = "";
+                    }
+                    if (lines[i].indexOf("player1:") >= 0) {
+                        names[1] = lines[i].substr(9);
+                        if (match_names[1] == "") {
+                            match_names[1] = names[1];
+                        }
+                    }
+                    if (lines[i].indexOf("player2:") >= 0) {
+                        mainboard = new board();
+                        names[2] = lines[i].substr(9);
+                        if (match_names[2] == "") {
+                            match_names[2] = names[2];
+                        }
+
+                        alert_message = "";
+                    }
+                    if (lines[i].indexOf("0 >> ") >= 0) {
+                        if (lines[i].indexOf("0 >> Winner:") >= 0) {
+                            winner = parseInt(lines[i].substr(13));
+                            messages.innerHTML += "Winner: " + names[winner] + "<br>";
+                            alert_message += "Winner: " + names[winner] + "\n";
+
+                        } else if (lines[i].indexOf("0 >> Score:") >= 0) {
+                            messages.innerHTML += lines[i].substr(5) + "<br><br>";
+                            alert_message += lines[i].substr(5) + "\n";
+                            alert(alert_message);
+
+                        } else {
+                            alert_message += lines[i].substr(5) + "\n";
+                        }
+                    }
+                    if (lines[i].indexOf("winner:") >= 0) {
+                        messages.innerHTML += "Match winner: " + match_names[parseInt(lines[i].substr(8))] + "<br>";
+                    }
+                    if (lines[i].indexOf("score:") >= 0) {
+                        messages.innerHTML += "Total score: " + lines[i].substr(7) + "<br>";
+                    }
+
+                } else {
+
+                    if (lines[i].indexOf(">>") > 0) {
+                        var s = lines[i].substr(5);
+                        mainboard.domove(s);
+                    }
+                }
+
+                drawall(mainboard);
+                i = i + 1;
+            }, 150);
+        }
+    })(tictactoe);
+
+    function mainShow_tictactoe(filePath) {
+        if (filePath) {
+            var contents = readTextFile(filePath);
+            var lines = contents.split('\n').filter(function(el) {
+                return el.length > 1;
+            });
+            tictactoe.show_game(lines);
+        } else {
+            alert("No filePath")
+        }
+    }
+
+<% end %>

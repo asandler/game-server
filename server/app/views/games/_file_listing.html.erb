@@ -1,0 +1,45 @@
+<table width="100%">
+    <% @files_array.each do |filename| %>
+        <tr><td width="95%">
+            <%= link_to filename.split('/')[-1],
+            { :action => :download_file, :controller => 'games', :path => "static-files/sources/#{current_game}/users/#{filename}" },
+            :method => :post %>
+        </td><td>
+            <%= link_to image_tag('delete.png', :border => 0, :alt => 'Delete', :width => 16, :height => 16),
+                { :action => :delete_file, :controller => 'games', :filename => source_root + filename.split('/')[-1] },
+                :method => :post,
+                data: { confirm: 'Вы уверены?' }
+            %>
+        </td></tr>
+    <% end %>
+</table>
+
+<br>
+
+<div>
+    <%= form_tag({:action => 'new_file', :controller => 'games'}, :name => "file_send_form", :multipart => true, :onsubmit => "return validate_rewriting('#{@files_array.map{|s| s.split('/')[-1]}.join(',')}')") do %>
+        <%= hidden_field_tag('game', current_game) %>
+        <%= file_field 'upload', 'datafile' %>
+        <%= submit_tag "Загрузить" %>
+    <% end %>
+</div>
+
+<%= javascript_tag do %>
+    function validate_rewriting(files_list) {
+        var filename = document.forms["file_send_form"]["upload[datafile]"].value.split('\\').slice(-1)[0];
+        if (typeof filename === 'undefined') {
+            return false;
+        }
+        if (filename.toString().length <= 0) {
+            return false;
+        }
+
+        var files_array = files_list.split(',');
+        for (var i = 0; i < files_array.length; ++i) {
+            if (files_array[i] == filename) {
+                return confirm("Перезаписать существующий файл " + filename + "?");
+            }
+        }
+        return true;
+    }
+<% end %>

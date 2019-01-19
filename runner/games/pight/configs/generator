@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+$pool = Hash.new
+$pool.default = false
+(0..29).each{|i| (0..39).each {|j| $pool[[i, j]] = true if srand % 100 > 92}}
+$snakes = [[], [[3, 0], [2, 0], [1, 0], [0, 0]], [[26, 39], [27, 39], [28, 39], [29, 39]]]
+$snakes[1].each{ |crd| $pool[crd] = false }
+$snakes[2].each{ |crd| $pool[crd] = false }
+
+f = File.open('init1', 'w')
+f.puts 31
+f.puts 1
+(0..29).each{ |i| (0..39).each{ |j| f.print $pool[[i,j]] ? 1 : 0 }; f.puts }
+f = File.open('init2', 'w')
+f.puts 31
+f.puts 2
+(0..29).each{ |i| (0..39).each{ |j| f.print $pool[[i,j]] ? 1 : 0 }; f.puts }

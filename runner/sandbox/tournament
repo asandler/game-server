@@ -1,0 +1,11 @@
+#!/bin/bash
+
+for i in $(ls $1); do
+    for j in $(ls $1); do
+        if [[ "0$i" < "0$j" ]]; then
+            curl -F "player1=@$1/$i" -F "player2=@$1/$j" -F "game=seabattle" -F "count=1" -F "tournament_game=1" -F "sec=2" -F "usec=0" -F "config_number=$2" http://127.0.0.1:4567/run >> trnfull
+            curl -F "player2=@$1/$i" -F "player1=@$1/$j" -F "game=seabattle" -F "count=1" -F "tournament_game=1" -F "sec=2" -F "usec=0" -F "config_number=$2" http://127.0.0.1:4567/run >> trnfull
+        fi
+    done
+done
+cat trnfull | ./table

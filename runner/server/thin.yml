@@ -1,0 +1,6 @@
+---
+environment: development
+rackup: config.ru
+timeout: 1200
+threaded: true
+daemonize: true

@@ -1,0 +1,7 @@
+               mingaliev_nail muratov_amir.p posobin_gleb.c ignatiev_savva olshansky_alex logunov_alex.c score          bonus          
+mingaliev_nail                4:0 (19:-1)    4:0 (32:0)     2:2 (16:15)    4:0 (22:0)     4:0 (15:0)     18             104            
+muratov_amir.p 0:4 (-1:19)                   4:0 (23:0)     4:0 (25:0)     0:4 (-1:16)    4:0 (17:0)     12             63             
+posobin_gleb.c 0:4 (0:32)     0:4 (0:23)                    2:2 (21:11)    4:0 (19:0)     4:0 (40:0)     10             80             
+ignatiev_savva 2:2 (15:16)    0:4 (0:25)     2:2 (11:21)                   2:2 (10:9)     4:0 (15:0)     10             51             
+olshansky_alex 0:4 (0:22)     4:0 (16:-1)    0:4 (0:19)     2:2 (9:10)                    0:4 (0:7)      6              25             
+logunov_alex.c 0:4 (0:15)     0:4 (0:17)     0:4 (0:40)     0:4 (0:15)     4:0 (7:0)                     4              7              

@@ -1,0 +1,59 @@
+#!/usr/bin/env ruby
+
+class Array
+    def s(a, b, c)
+        return self[a.to_i] + self[b.to_i] + self[c.to_i]
+    end
+
+    def win
+        a = [self.s(0, 1, 2), self.s(3, 4, 5), self.s(6, 7, 8), 
+             self.s(0, 3, 6), self.s(1, 4, 7), self.s(2, 5, 8),
+             self.s(0, 4, 8), self.s(2, 4, 6)]
+        return 1 if a.max == 3
+        return 2 if a.min == -3
+        return 0 if !(self.include?(0))
+        return nil
+    end
+end
+
+$field = Array.new(9, 0)
+STDOUT.sync = true
+turn = 1
+winner = nil
+
+def final winner
+    return case winner
+        when 1 then '1:0 (1:0)'
+        when 2 then '0:1 (0:1)'
+        when 0 then '0:0 (0:0)'
+        else ''
+    end
+end
+
+while true
+    case (s = gets.chomp)[0]
+    when 'i' then
+        winner ||= 3 - turn
+        print winner.to_s + final(winner) + "\n"
+    when 'f' then
+        winner ||= $field.win
+        print winner.to_s + final(winner) + "\n"
+    when 'c' then
+        gets
+        puts "OK"
+    else
+        s = s[1..-1]
+        if (!winner and s.to_i.to_s == s and s.length == 1 and $field[s.to_i] == 0)
+            $field[s.to_i] = (turn == 1) ? 1 : -1
+            turn = 3 - turn
+            if winner ||= $field.win
+                print winner.to_s + final(winner) + "\n"
+            else
+                print " " + s + "\n"
+            end
+        else
+            winner ||= 3 - turn
+            print "i" + final(winner) + "\n"
+        end
+    end
+end

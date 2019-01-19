@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Проверяющий сервер Combalg-2016</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<div id="nav">
+    <% if current_user %>
+      <%= link_to current_user.email, show_game_path(:tab_number => current_user.tab_number) %> | 
+      <%= link_to "Профиль", edit_user_path(current_user.id) %> | 
+      <%= link_to "Вопросы", tickets_path %> | 
+      <% if current_user.email == "admin" %>
+          <%= link_to "Пользователи", users_path %> | 
+          <%= link_to "Проверяющие машины", runners_path %> |
+      <% end %>
+      <%= link_to "Выход", :logout, method: :post %>
+    <% else %>
+      <%= link_to 'Вход', :login %>
+      <% if Rails.application.config.allow_external_registration %>
+        | <%= link_to 'Регистрация', new_user_path %>
+      <% end %>
+    <% end %>
+  </div>
+  <div>
+    <p id="notice"><%= flash[:notice] %></p>
+    <p id="alert"><%= flash[:alert] %></p>
+  </div>
+
+<%= yield %>
+
+</body>
+</html>

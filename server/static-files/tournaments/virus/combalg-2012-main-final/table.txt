@@ -1,0 +1,7 @@
+               mingaliev_nail muratov_amir.p posobin_gleb.c feldsherov_sla zhukov_vlad.pa sidtikov_ruzal score          bonus          
+mingaliev_nail                4:0 (0:-2)     4:0 (36:0)     4:0 (15:0)     4:0 (23:0)     4:0 (36:0)     20             110            
+muratov_amir.p 0:4 (-2:0)                    4:0 (23:0)     4:0 (20:0)     4:0 (41:0)     2:2 (29:0)     14             111            
+posobin_gleb.c 0:4 (0:36)     0:4 (0:23)                    2:2 (11:12)    4:0 (33:0)     2:2 (10:15)    8              54             
+feldsherov_sla 0:4 (0:15)     0:4 (0:20)     2:2 (12:11)                   2:2 (14:9)     2:2 (5:5)      6              31             
+zhukov_vlad.pa 0:4 (0:23)     0:4 (0:41)     0:4 (0:33)     2:2 (9:14)                    4:0 (20:0)     6              29             
+sidtikov_ruzal 0:4 (0:36)     2:2 (0:29)     2:2 (15:10)    2:2 (5:5)      0:4 (0:20)                    6              20             

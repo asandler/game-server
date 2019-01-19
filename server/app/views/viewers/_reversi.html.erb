@@ -1,0 +1,271 @@
+<center>
+    <table cellspacing=0 cellpadding=0 style="border-collapse: collapse; border: 4px solid black;">
+        <% 8.times do |i| %>
+            <tr>
+            <% 8.times do |j| %>
+                <td class="rsquare cell-reversi" id="r<%=i%><%=j%>">
+                    <%= image_tag('viewers/reversi/green.gif', :border => 0, :alt => 'E', :width => 40, :height => 40) %>
+                </td>
+            <% end %>
+            </tr>
+        <% end %>
+    </table>
+    <div class="text">
+        <table cellpadding=0 cellspacing=0>
+            <tr>
+                <td style="text-align:right">
+                    <span style="font-size: 28px">
+                        <span id="left_score">0</span>
+                    </span>
+                </td>
+                <td>
+                    <span style="font-size: 28px">
+                        &nbsp;:&nbsp;
+                    </span>
+                </td>
+                <td style="text-align:left">
+                    <span style="font-size: 28px">
+                        <span id="right_score">0</span>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right">
+                    <span style="font-size: 28px">
+                        <span id="player1_name"></span>
+                    </span>
+                </td>
+                <td>
+                    <span style="font-size: 28px">
+                        &nbsp;-&nbsp;
+                    </span>
+                </td>
+                <td style="text-align:left">
+                    <span style="font-size: 28px">
+                        <span id="player2_name"></span>
+                    </span>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <div id="messages">
+        </div>
+    </div>
+</center>
+
+<%= javascript_tag do %>
+
+    var reversi = {};
+
+    (function(context) {
+        function coords(cell) {
+            return [parseInt(cell.id.substr(1,1)), parseInt(cell.id.substr(2,1))];
+        }
+        
+        var images = [
+            '<%= asset_path('viewers/reversi/black.gif') %>',
+            '<%= asset_path('viewers/reversi/green.gif') %>',
+            '<%= asset_path('viewers/reversi/white.gif') %>'
+        ];
+
+        function drawall(board, names) {
+            $('.cell-reversi').each(function() {
+                $(this).find('img').attr('src', images[board.state(coords(this)) + 1]);
+            });
+            var scores = board.countsquares();
+
+            $('#left_score').html(scores[0]);
+            $('#right_score').html(scores[1]);
+
+            $('#player1_name').html(names[1]);
+            $('#player2_name').html(names[2]);
+        }
+
+        function board() {
+            this.whosemove = -1;
+            this.state_vector = [
+                0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 1,-1, 0, 0, 0,
+                0, 0, 0,-1, 1, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0
+            ];
+        }
+        
+        board.prototype.state = function(c) {
+            return this.state_vector[c[0] + 8 * c[1]];
+        }
+         
+        board.prototype.setstate = function(c, s) {
+            this.state_vector[c[0] + 8 * c[1]] = s;
+        }
+        
+        function translate(str) {
+            if (str == "Skip") {
+                return str;
+            }
+            if (str.length != 2) {
+                return [3, 3]; //illegal move
+            }
+            var h = {};
+            h['a'] = '0';
+            h['b'] = '1';
+            h['c'] = '2';
+            h['d'] = '3';
+            h['e'] = '4';
+            h['f'] = '5';
+            h['g'] = '6';
+            h['h'] = '7';
+            return [parseInt(h[str.substr(0,1)]), parseInt(str.substr(1,1)) - 1];
+        }
+        
+        board.prototype.domove = function(c) {
+            if (c == "Skip") {
+                this.pass();
+                return true;
+            }
+
+            if (this.state(c) != 0) {
+                return false;
+            }
+
+            var flips = this.allflips(c, this.whosemove);
+
+            if (flips.length == 0) {
+                return false;
+            }
+
+            this.setstate(c, this.whosemove);
+            for (var j = 0; j < flips.length; ++j) {
+                this.setstate(flips[j], this.whosemove);
+            }
+            this.whosemove = -this.whosemove;
+
+            return true;
+        }
+
+        board.prototype.countsquares = function() {
+            var counts = [0, 0, 0];
+            for (var j = 0; j < 64; ++j) {
+                var s = this.state_vector[j];
+                counts[(s + 2) % 3] += 1;
+            }
+            return counts;
+        }
+        
+        board.prototype.pass = function() {
+            this.whosemove = -this.whosemove;
+        }
+         
+        board.prototype.flipline = function(c, dir, s) {
+            var accumulate = [];
+            var scan = [c[0] + dir[0], c[1] + dir[1]];
+            while (scan[0] >= 0 && scan[0] <= 7 && scan[1] >= 0 && scan[1] <= 7) {
+                if (this.state(scan) != -s) {
+                    if (this.state(scan) == s) {
+                        return accumulate;
+                    }
+                    break;
+                }
+                accumulate.push([scan[0], scan[1]]);
+                scan[0] += dir[0];
+                scan[1] += dir[1];
+            }
+            return [];
+        }
+        
+        board.prototype.allflips = function(c, s) {
+            var flips = [].concat(
+                this.flipline(c, [-1, -1], s),
+                this.flipline(c, [0, -1], s),
+                this.flipline(c, [1, -1], s),
+                this.flipline(c, [-1, 0], s),
+                this.flipline(c, [1, 0], s),
+                this.flipline(c, [-1, 1], s),
+                this.flipline(c, [0, 1], s),
+                this.flipline(c, [1, 1], s)
+            );
+            return flips;
+        }
+        
+        context.show_game = function(lines) {
+            var mainboard = new board();
+            var i = 0;
+            var names = ["Draw", "", ""];
+            var match_names = ["Draw", "", ""];
+            var messages = document.getElementById('messages');
+            messages.innerHTML = "";
+            var alert_message = "";
+
+            var timer = setInterval(function() {
+                if (lines[i].indexOf("1 >>") < 0 && lines[i].indexOf("1 <<") < 0 && lines[i].indexOf("2 >>") < 0 && lines[i].indexOf("2 <<") < 0) {
+                    if (lines[i].indexOf("match:") >= 0) {
+                        messages.innerHTML = "";
+                    }
+                    if (lines[i].indexOf("player1:") >= 0) {
+                        names[1] = lines[i].substr(9);
+                        if (match_names[1] == "") {
+                            match_names[1] = names[1];
+                        }
+                    }
+                    if (lines[i].indexOf("player2:") >= 0) {
+                        mainboard = new board();
+                        names[2] = lines[i].substr(9);
+                        if (match_names[2] == "") {
+                            match_names[2] = names[2];
+                        }
+
+                        alert_message = "";
+                    }
+                    if (lines[i].indexOf("0 >> ") >= 0) {
+                        if (lines[i].indexOf("0 >> Winner:") >= 0) {
+                            winner = parseInt(lines[i].substr(13));
+                            messages.innerHTML += "Winner: " + names[winner] + "<br>";
+                            alert_message += "Winner: " + names[winner] + "\n";
+
+                        } else if (lines[i].indexOf("0 >> Score:") >= 0) {
+                            messages.innerHTML += lines[i].substr(5) + "<br><br>";
+                            alert_message += lines[i].substr(5) + "\n";
+                            alert(alert_message);
+
+                        } else {
+                            alert_message += lines[i].substr(5) + "\n";
+                        }
+                    }
+                    if (lines[i].indexOf("winner:") >= 0) {
+                        messages.innerHTML += "Match winner: " + match_names[parseInt(lines[i].substr(8))] + "<br>";
+                    }
+                    if (lines[i].indexOf("score:") >= 0) {
+                        messages.innerHTML += "Total score: " + lines[i].substr(7) + "<br>";
+                    }
+
+                } else {
+
+                    if (lines[i].indexOf(">>") > 0) {
+                        var move = lines[i].substr(5);
+                        mainboard.domove(translate(move));
+                    }
+                }
+
+                drawall(mainboard, names);
+                i = i + 1;
+            }, 200);
+        }
+    })(reversi);
+
+    function mainShow_reversi(filePath) {
+        if (filePath) {
+            var contents = readTextFile(filePath);
+            var lines = contents.split('\n').filter(function(el) {
+                return el.length > 1;
+            });
+            reversi.show_game(lines);
+        } else {
+            alert("No filePath")
+        }
+    }
+
+<% end %>

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ "$1" == "" ]; then
+    echo "Argument required: number of threads"
+    exit
+fi
+
+rm -r log/ tmp/ 2> /dev/null
+ps aux | grep thin | awk -F' ' '{print $2}' | xargs kill -9
+thin start -C thin.yml -s "$1" -p 4567

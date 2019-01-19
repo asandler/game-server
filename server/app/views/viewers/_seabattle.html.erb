@@ -1,0 +1,342 @@
+<center>
+    <table><tr><td>
+        <table cellspacing=0 cellpadding=0 style="border-collapse: collapse;">
+            <% 10.times do |i| %>
+                <tr>
+                <td style="text-align:center"><%= ('9'.ord - i).chr%>&nbsp;</td>
+                <% 10.times do |j| %>
+                    <td class="rsquare-1px cell-seabattle-left" id="sea_l_<%=(9 - i)%>_<%=j%>">
+                        <%= image_tag('viewers/seabattle/empty.png', :border => 0, :alt => 'E', :width => 24, :height => 24) %>
+                    </td>
+                <% end %>
+                </tr>
+            <% end %>
+            <tr>
+                <td></td>
+                <% 10.times do |j| %>
+                    <td><center><%= ('A'.ord + j).chr %></center></td>
+                <% end %>
+            </tr>
+        </table>
+    </td><td>
+        &nbsp;&nbsp;
+    </td><td>
+        <table cellspacing=0 cellpadding=0 style="border-collapse: collapse;">
+            <% 10.times do |i| %>
+                <tr>
+                <td style="text-align:center"><%= ('9'.ord - i).chr%>&nbsp;</td>
+                <% 10.times do |j| %>
+                    <td class="rsquare-1px cell-seabattle-right" id="sea_r_<%=(9 - i)%>_<%=j%>">
+                        <%= image_tag('viewers/seabattle/empty.png', :border => 0, :alt => 'E', :width => 24, :height => 24) %>
+                    </td>
+                <% end %>
+                </tr>
+            <% end %>
+            <tr>
+                <td></td>
+                <% 10.times do |j| %>
+                    <td><center><%= ('A'.ord + j).chr %></center></td>
+                <% end %>
+            </tr>
+        </table>
+    </td></tr></table>
+
+    <div class="text">
+        <br>
+        <table cellpadding=0 cellspacing=0>
+            <tr>
+                <td style="text-align:right">
+                    <span style="font-size: 28px">
+                        <span id="left_score">0</span>
+                    </span>
+                </td>
+                <td>
+                    <span style="font-size: 28px">
+                        &nbsp;:&nbsp;
+                    </span>
+                </td>
+                <td style="text-align:left">
+                    <span style="font-size: 28px">
+                        <span id="right_score">0</span>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right">
+                    <span style="font-size: 28px">
+                        <span id="player1_name"></span>
+                    </span>
+                </td>
+                <td>
+                    <span style="font-size: 28px">
+                        &nbsp;-&nbsp;
+                    </span>
+                </td>
+                <td style="text-align:left">
+                    <span style="font-size: 28px">
+                        <span id="player2_name"></span>
+                    </span>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <div id="messages">
+        </div>
+    </div>
+</center>
+
+<%= javascript_tag do %>
+
+    var seabattle = {};
+
+    (function(context) {
+        function translateCoordsToView(c1, c2) {
+            return (9 - c2) * 10 + c1;
+        }
+
+        function coords(cell) {
+            var tokens = cell.id.split('_');
+            return translateCoordsToView(parseInt(tokens[3]), parseInt(tokens[2]));
+        }
+        
+        var images = [
+            '<%= asset_path('viewers/seabattle/empty.png') %>',
+            '<%= asset_path('viewers/seabattle/mine.png') %>',
+            '<%= asset_path('viewers/seabattle/left.png') %>',
+            '<%= asset_path('viewers/seabattle/left_dead.png') %>',
+            '<%= asset_path('viewers/seabattle/right.png') %>',
+            '<%= asset_path('viewers/seabattle/right_dead.png') %>',
+        ];
+
+        function drawall(board, names) {
+            $('.cell-seabattle-left').each(function() {
+                $(this).find('img').attr('src', images[board.left_field[coords(this)]]);
+            });
+            $('.cell-seabattle-right').each(function() {
+                $(this).find('img').attr('src', images[board.right_field[coords(this)]]);
+            });
+
+            var scores = board.calcScore();
+
+            $('#left_score').html(scores[0]);
+            $('#right_score').html(scores[1]);
+
+            $('#player1_name').html(names[0]);
+            $('#player2_name').html(names[1]);
+        }
+
+        function board() {
+            this.left_field = [
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            ];
+            this.right_field = [
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            ];
+            this.left_ships = [[], [], [], [], [], [], [], [], [], []];
+            this.right_ships = [[], [], [], [], [], [], [], [], [], []];
+        }
+
+        board.prototype.setShips = function(board, turn, shipStr) {
+            ships = shipStr.split(' ');
+
+            for (var i = 0; i < ships.length; ++i) {
+                var c1 = ships[i][0].charCodeAt() - 'A'.charCodeAt();
+                var c2 = ships[i][1].charCodeAt() - '0'.charCodeAt();
+                var c3 = ships[i][2].charCodeAt() - 'A'.charCodeAt();
+                var c4 = ships[i][3].charCodeAt() - '0'.charCodeAt();
+
+                for (var j = Math.min(c1, c3); j <= Math.max(c1, c3); ++j) {
+                    for (var k = Math.min(c2, c4); k <= Math.max(c2, c4); ++k) {
+                        if (turn == '1') {
+                            board.left_field[translateCoordsToView(j, k)] = 2;
+                            this.left_ships[i].push(j + ' ' + k);
+                        } else {
+                            board.right_field[translateCoordsToView(j, k)] = 4;
+                            this.right_ships[i].push(j + ' ' + k);
+                        }
+                    }
+                }
+            }
+        }
+        
+        board.prototype.moveShip = function(field, ships, shipIndex, direction, fill) {
+            if (direction != 'N' && direction != 'S' && direction != 'W' && direction != 'E') {
+                return;
+            }
+
+            for (var i = 0; i < ships[shipIndex].length; ++i) {
+                var c = ships[shipIndex][i].split(' ');
+                var c1 = parseInt(c[0]);
+                var c2 = parseInt(c[1]);
+
+                field[translateCoordsToView(c1, c2)] = 0;
+
+                if (direction == 'N') {
+                    ships[shipIndex][i] = c1 + ' ' + (c2 + 1);
+                } else if (direction == 'S') {
+                    ships[shipIndex][i] = c1 + ' ' + (c2 - 1);
+                } else if (direction == 'W') {
+                    ships[shipIndex][i] = (c1 - 1) + ' ' + c2;
+                } else if (direction == 'E') {
+                    ships[shipIndex][i] = (c1 + 1) + ' ' + c2;
+                }
+            }
+
+            for (var i = 0; i < ships[shipIndex].length; ++i) {
+                var c = ships[shipIndex][i].split(' ');
+                var c1 = parseInt(c[0]);
+                var c2 = parseInt(c[1]);
+                field[translateCoordsToView(c1, c2)] = fill;
+            }
+        }
+
+        board.prototype.makeShot = function(field, shootTo, alive) {
+            var c1 = shootTo[0].charCodeAt() - 'A'.charCodeAt();
+            var c2 = shootTo[1].charCodeAt() - '0'.charCodeAt();
+            var viewCoord = translateCoordsToView(c1, c2);
+
+            if (field[viewCoord] == alive) {
+                field[viewCoord] = alive + 1;
+            } else if (field[viewCoord] == 0) {
+                field[viewCoord] = 1;
+            }
+        }
+
+        board.prototype.calcScore = function() {
+            var counts = [0, 0];
+            for (var i = 0; i < 100; ++i) {
+                if (this.left_field[i] == 2) {
+                    counts[0] += 1;
+                }
+            }
+            for (var i = 0; i < 100; ++i) {
+                if (this.right_field[i] == 4) {
+                    counts[1] += 1;
+                }
+            }
+            return counts;
+        }
+        
+        context.show_game = function(lines) {
+            var mainboard = new board();
+            var i = 0;
+            var names = ["", ""];
+            var messages = document.getElementById('messages');
+            messages.innerHTML = "";
+
+            var delayed_shot_queue = [];
+            var balance = 0;
+            var alert_message = "";
+
+            var timer = setInterval(function() {
+
+                if (balance > 1) {
+                    var shot = delayed_shot_queue.shift();
+
+                    if (shot.length > 2) {
+                        if (shot[0] == '1') {
+                            mainboard.makeShot(mainboard.right_field, shot.substr(2), 4);
+                        } else {
+                            mainboard.makeShot(mainboard.left_field, shot.substr(2), 2);
+                        }
+                    }
+
+                    balance -= 1;
+                    drawall(mainboard, names);
+                    return;
+                }
+
+                if (lines[i].indexOf("1 >>") < 0 && lines[i].indexOf("1 <<") < 0 && lines[i].indexOf("2 >>") < 0 && lines[i].indexOf("2 <<") < 0) {
+                    if (lines[i].indexOf("match:") >= 0) {
+                        messages.innerHTML = "";
+                    }
+                    if (lines[i].indexOf("player1:") >= 0) {
+                        names[0] = lines[i].substr(9);
+                    }
+                    if (lines[i].indexOf("player2:") >= 0) {
+                        mainboard = new board();
+                        names[1] = lines[i].substr(9);
+
+                        delayed_shot_queue = [];
+                        balance = 0;
+                        alert_message = "";
+                    }
+                    if (lines[i].indexOf("0 >> ") >= 0) {
+                        if (lines[i].indexOf("0 >> Winner:") >= 0) {
+                            winner = parseInt(lines[i].substr(13));
+                            messages.innerHTML += "Winner: " + names[winner - 1] + "<br>";
+                            alert_message += "Winner: " + names[winner - 1] + "\n";
+
+                        } else if (lines[i].indexOf("0 >> Score:") >= 0) {
+                            messages.innerHTML += lines[i].substr(5) + "<br><br>";
+                            alert_message += lines[i].substr(5) + "\n";
+                            alert(alert_message);
+
+                        } else {
+                            alert_message += lines[i].substr(5) + "\n";
+                        }
+                    }
+                    if (lines[i].indexOf("winner:") >= 0) {
+                        messages.innerHTML += "Match winner: " + names[2 - parseInt(lines[i].substr(8))] + "<br>";
+                    }
+                    if (lines[i].indexOf("score:") >= 0) {
+                        messages.innerHTML += "Total score: " + lines[i].substr(7) + "<br>";
+                    }
+
+                } else {
+
+                    if (lines[i].length > 40) {
+                        mainboard.setShips(mainboard, lines[i][0], lines[i].substr(5));
+                    } else if (lines[i].indexOf(">>") > 0) {
+
+                        var turn = parseInt(lines[i][0]);
+                        var s = lines[i].substr(5);
+
+                        if (turn == '1') {
+                            mainboard.moveShip(mainboard.left_field, mainboard.left_ships, parseInt(s[0]), s[1], 2);
+                        } else {
+                            mainboard.moveShip(mainboard.right_field, mainboard.right_ships, parseInt(s[0]), s[1], 4);
+                        }
+                        delayed_shot_queue.push(turn + ' ' + s.substr(5, 2));
+
+                        balance += 1;
+                    }
+                }
+
+                drawall(mainboard, names);
+                i = i + 1;
+            }, 80);
+        }
+    })(seabattle);
+
+    function mainShow_seabattle(filePath) {
+        if (filePath) {
+            var contents = readTextFile(filePath);
+            var lines = contents.split('\n').filter(function(el) {
+                return el.length > 1;
+            });
+            seabattle.show_game(lines);
+        } else {
+            alert("No filePath")
+        }
+    }
+
+<% end %>

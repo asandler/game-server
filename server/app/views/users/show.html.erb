@@ -1,0 +1,151 @@
+<div class="tabs" style="margin-bottom: 3px;">
+    <% @games_list.each_with_index do |e, index| %>
+        <% if index == @user.tab_number %>
+            <%= link_to e, e, :id => "checked" %>
+        <% else %>
+            <%= link_to e, e %>
+        <% end %>
+    <% end %>
+</div>
+
+<div>
+    <table width="100%"cellspacing=0 cellpadding=0 style="border-collapse: collapse;"><tr>
+    <td width="20%" class="tableblock vertalign panel1">
+
+        <%= render :partial => 'games/file_listing', :locals => {:current_game => @current_game, :source_root => @source_root} %>
+        <div><font color="red"><%= @msg %></font></div>
+        <hr align="center" width="100%" size="1"/>
+
+        <%= render :partial => 'games/run_new_match', :locals => {:current_game => @current_game} %>
+        <hr align="center" width="100%" size="1"/>
+
+        <% if current_user.email == 'admin' %>
+            <%= render :partial => 'tournaments/new_tournament', :locals => {:current_game => @current_game} %>
+            <hr align="center" width="100%" size="1"/>
+        <% end %>
+
+        <center>
+            <div>
+                <% if File.exist?(Rails.root.to_s + "/static-files/rules/#{@current_game}/Technical_rules.html") %>
+                    <%= link_to 'Правила игры',
+                        {:action => :download_html,
+                         :controller => 'games',
+                         :path => "static-files/rules/#{@current_game}/Technical_rules.html"
+                        }, :method => :post %>
+                <% elsif File.exist?(Rails.root.to_s + "/static-files/rules/#{@current_game}/Technical_rules.pdf") %>
+                    <%= link_to 'Правила игры',
+                        {:action => :download_pdf,
+                         :controller => 'games',
+                         :path => "static-files/rules/#{@current_game}/Technical_rules.pdf"
+                        }, :method => :post %>
+                <% end %>
+                <br>
+                <%= link_to 'Частые проблемы', troubleshooting_path %>
+            </div>
+
+            <% etc_files_root = "static-files/public" %>
+            <% if Dir.exists?(etc_files_root) %>
+                <% public_files = Dir.entries(etc_files_root).keep_if{|s| s[0] != "."}.sort %>
+
+                <% if public_files.size > 0 %>
+                    <br><hr align="center" width="100%" size="1"/>
+
+                    <% public_files.each do |f| %>
+                        <%= link_to f,
+                            {:action => :download_file,
+                             :controller => 'games',
+                             :path => "static-files/public/#{f}"
+                            }, :method => :post %><br>
+                    <% end %>
+                <% end %>
+            <% end %>
+        </center>
+        <br>
+    </td>
+
+    <td width="30%" class="tableblock vertalign panel2">
+        <div class="table-wrapper"><div class="table-scroll">
+            <center>
+                <% if @show_tournaments %>
+                    <%= link_to 'Показать матчи' %><br>
+                <% else %>
+                    <%= link_to 'Показать турниры', '/show_game?show_tournaments=1' %><br>
+                <% end %>
+            </center>
+            <table width="100%">
+                <% if @show_tournaments %>
+                    <% tournaments = Dir.entries(@tournaments_root).keep_if{|s| not ['.', '..'].include? s}.sort %>
+
+                    <% if tournaments.size == 0 %>
+                        <center>
+                            Результаты турниров будут отображаться здесь
+                        </center>
+                    <% else %>
+                        <% tournaments.each do |m| %>
+                            <% trn_result_file = @tournaments_root + m + "/trnfull" %>
+                            <% trn_result_tmp_file = @tournaments_root + m + "/trnfull.tmp" %>
+
+                            <% if File.exist?(trn_result_file) %>
+                                <% lines = File.open(trn_result_file).readlines %>
+                                <%= render :partial => 'tournaments/tournament_result', :locals => {:lines => lines, :current_game => @current_game, :name => m} %>
+                            <% else %>
+                                <% lines = File.open(trn_result_tmp_file).readlines %>
+                                <%= render :partial => 'tournaments/tournament_result', :locals => {:tmp => true, :lines => lines, :current_game => @current_game, :name => m} %>
+                            <% end %>
+
+                        <% end %>
+                    <% end %>
+                <% else %>
+                    <% matches = Dir.entries(@match_root).keep_if{|s| not ['.', '..'].include? s}.sort_by{|a| -(a.to_i)} %>
+
+                    <% if matches.size == 0 %>
+                        <center>
+                            Результаты матчей будут отображаться здесь
+                        </center>
+                    <% else %>
+
+                        <% matches.each do |m| %>
+                            <% match_result_file = @match_root + m + "/match.output" %>
+                            <% match_result_tmp_file = @match_root + m + "/match.output.tmp" %>
+
+                            <% if File.exist?(match_result_file) %>
+                                <% lines = File.open(match_result_file).readlines %>
+                                <%= render :partial => 'games/game_run_result', :locals => {:lines => lines, :current_game => @current_game, :match_file => m + '/match.output', :match_root => @match_root} %>
+                            <% else %>
+                                <% lines = File.open(match_result_tmp_file).readlines %>
+                                <%= render :partial => 'games/game_run_result', :locals => {:tmp_game => true, :lines => lines, :match_root => @match_root} %>
+                            <% end %>
+
+                        <% end %>
+                    <% end %>
+                <% end %>
+            </table>
+        </div></div>
+    </td>
+
+    <td width="50%" class="tableblock vertalign panel3">
+        <br>
+        <div class="table-scroll">
+            <%= render "viewers/#{@current_game}" %>
+        </div>
+    </td>
+    </tr></table>
+</div>
+
+<%= javascript_tag do %>
+    function readTextFile(file) {
+        var download_url = '<%=j root_url %>' + 'games/download';
+        var params = "path=" + file;
+
+        var rawFile = new XMLHttpRequest();
+        rawFile.open("POST", download_url, false);
+        rawFile.setRequestHeader('X-CSRF-Token', '<%=j form_authenticity_token %>');
+        rawFile.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        rawFile.setRequestHeader("Content-length", params.length);
+        rawFile.setRequestHeader("Connection", "close");
+
+        rawFile.send(params);
+        return rawFile.responseText;
+    }
+
+<% end %>

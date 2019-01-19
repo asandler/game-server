@@ -1,0 +1,34 @@
+<% if defined? tmp %>
+    <tr><td class="tableblock">
+        <b><%= lines[0].split[1] %></b> vs <b><%= lines[0].split[3] %></b><br>
+        Пожалуйста, подождите...
+    </td></tr>
+<% else %>
+
+    <tr><td class="tableblock">
+        <table width="100%"><tr><td width="95%">
+            <b>Tournament: <%= name %></b><br>
+            <%= link_to 'Логи игр',
+                {:action => :download_file, :controller => 'games',
+                :path => "static-files/tournaments/#{current_game}/#{name}/trnfull"
+                },
+                :method => :post %> |
+            <%= link_to 'Посмотреть игры', '',
+                :remote => true,
+                :onclick => "mainShow_#{current_game}('static-files/tournaments/#{current_game}/#{name}/trnfull')" %> |
+            <%= link_to 'Таблица',
+                {:action => :download_file, :controller => 'games',
+                :path => "static-files/tournaments/#{current_game}/#{name}/table.txt"
+                },
+                :method => :post %>
+        </td><td>
+            <%= link_to image_tag('delete.png', :border => 0, :alt => 'Delete', :width => 16, :height => 16),
+                {:action => :delete_game, :controller => 'games',
+                 :dir => "static-files/tournaments/#{current_game}/#{name}"
+                },
+                :method => :post,
+                data: { confirm: 'Вы уверены?' }
+            %>
+        </td><tr></table>
+    </td></tr>
+<% end %>

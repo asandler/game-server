@@ -1,0 +1,233 @@
+<center> 
+    <table cellspacing=0 cellpadding=0 style="border-collapse: collapse; border: 1px solid black;">
+        <% 10.times do |i| %>
+            <tr>
+            <% 10.times do |j| %>
+                <td class="rsquare cell-virus" id="c<%=i%><%=j%>">
+                    <%= image_tag('viewers/virus/white.png', :border => 0, :alt => 'E', :width => 32, :height => 32) %>
+                </td>
+            <% end %>
+            </tr>
+        <% end %>
+    </table>
+    <div class="text">
+        <table cellpadding=0 cellspacing=0>
+            <tr>
+                <td style="text-align:right">
+                    <span style="font-size: 28px">
+                        <span id="left_score">0</span>
+                    </span>
+                </td>
+                <td>
+                    <span style="font-size: 28px">
+                        &nbsp;:&nbsp;
+                    </span>
+                </td>
+                <td style="text-align:left">
+                    <span style="font-size: 28px">
+                        <span id="right_score">0</span>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right">
+                    <span style="font-size: 28px">
+                        <span id="player1_name"></span>
+                    </span>
+                </td>
+                <td>
+                    <span style="font-size: 28px">
+                        &nbsp;-&nbsp;
+                    </span>
+                </td>
+                <td style="text-align:left">
+                    <span style="font-size: 28px">
+                        <span id="player2_name"></span>
+                    </span>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <div id="messages">
+        </div>
+    </div>
+</center>
+
+<%= javascript_tag do %>
+
+    var virus = {};
+
+    (function(context) {
+
+        var board = new Array(10 * 10);
+        var turn = 2;
+        
+        var images = [
+            '<%= asset_path('viewers/virus/white.png') %>',
+            '<%= asset_path('viewers/virus/red.png') %>',
+            '<%= asset_path('viewers/virus/blue.png') %>',
+            '<%= asset_path('viewers/virus/red_dead.png') %>',
+            '<%= asset_path('viewers/virus/blue_dead.png') %>'
+        ];
+
+        function init_board(field) {
+            for (var i = 0; i < 10; ++i) {
+                for (var j = 0; j < 10; ++j) {
+                    board[i * 10 + j] = 0;
+                    $('#c' + i + j).find('img').attr('src', images[0]);
+                }
+            }
+            turn = 2;
+        }
+
+        function coords(cell) {
+            return [parseInt(cell.id.substr(1, 1)), parseInt(cell.id.substr(2, 1))];
+        }
+
+        function calc_scores() {
+            var counts = [0, 0];
+            for (var j = 0; j < 100; ++j) {
+                var s = board[j];
+                if (s == 1 || s == 2) {
+                    counts[s - 1] += 1;
+                }
+            }
+            return counts;
+        }
+        
+        function drawall(names) {
+            $('.cell-virus').each(function() {
+                $(this).find('img').attr('src', images[board[coords(this)]]);
+            });
+            var scores = calc_scores();
+
+            $('#left_score').html(scores[0]);
+            $('#right_score').html(scores[1]);
+
+            $('#player1_name').html(names[0]);
+            $('#player2_name').html(names[1]);
+        }
+
+        function highlight_cell(i, j, clr) {
+            var s = board[i * 10 + j];
+            $('#c' + i + j).find('img').attr('src', images[s + 4 * clr]);
+        }
+
+        function unhighlight_cell(i, j, clr) {
+            var s = board[i * 10 + j];
+            $('#c' + i + j).find('img').attr('src', images[s]);
+        }
+
+        function add_circ(i, j, clr) {
+            board[i * 10 + j] = clr;
+            $('#c' + i + j).find('img').attr('src', images[clr]);
+        }
+
+        function kill_cell(i, j) {
+            board[i * 10 + j] += 2;
+            $('#c' + i + j).find('img').attr('src', images[board[i * 10 + j]]);
+        }
+
+        function translate(str) {
+            if (str == "Skip") {
+                return [];
+            }
+            if (str.length == 2) {
+                return [str];
+            } else if (str.length == 4) {
+                return [str.substr(0, 2), str.substr(2, 2)];
+            } else {
+                return [str.substr(0, 2), str.substr(2, 2), str.substr(4, 2)];
+            }
+        }
+        
+        function domove(c) {
+            var i = parseInt(c[0]);
+            var j = parseInt(c[1]);
+            if (board[i * 10 + j] != 0) {
+                kill_cell(i, j);
+            } else {
+                add_circ(i, j, turn);
+            }
+
+            return true;
+        }
+         
+        context.show_game = function(lines) {
+            var i = 0;
+            var names = ["", ""];
+            var moves = [];
+            var alert_message = "";
+
+            var messages = document.getElementById('messages');
+            messages.innerHTML = "";
+
+            var timerId = setTimeout(function tick() {
+                if (moves.length > 0) {
+                    var m = moves.shift();
+                    domove(m);
+                } else {
+                    if (lines[i].indexOf("1 >>") < 0 && lines[i].indexOf("1 <<") < 0 && lines[i].indexOf("2 >>") < 0 && lines[i].indexOf("2 <<") < 0) {
+                        if (lines[i].indexOf("match:") >= 0) {
+                            messages.innerHTML = "";
+                        }
+                        if (lines[i].indexOf("player1:") >= 0) {
+                            names[0] = lines[i].substr(9);
+                        }
+                        if (lines[i].indexOf("player2:") >= 0) {
+                            init_board();
+                            names[1] = lines[i].substr(9);
+                            alert_message = "";
+                        }
+                        if (lines[i].indexOf("0 >> ") >= 0) {
+                            if (lines[i].indexOf("0 >> Winner:") >= 0) {
+                                winner = parseInt(lines[i].substr(13));
+                                messages.innerHTML += "Winner: " + names[winner - 1] + "<br>";
+                                alert_message += "Winner: " + names[winner - 1] + "\n";
+
+                            } else if (lines[i].indexOf("0 >> Score:") >= 0) {
+                                messages.innerHTML += lines[i].substr(5) + "<br><br>";
+                                alert_message += lines[i].substr(5) + "\n";
+                                alert(alert_message);
+
+                            } else {
+                                alert_message += lines[i].substr(5) + "\n";
+                            }
+                        }
+                        if (lines[i].indexOf("winner:") >= 0) {
+                            messages.innerHTML += "Match winner: " + names[2 - parseInt(lines[i].substr(8))] + "<br>";
+                        }
+                        if (lines[i].indexOf("score:") >= 0) {
+                            messages.innerHTML += "Total score: " + lines[i].substr(7) + "<br>";
+                        }
+
+                    } else {
+
+                        if (lines[i].indexOf(">>") > 0) {
+                            turn = parseInt(lines[i][0]);
+                            var move = lines[i].substr(5);
+                            moves = translate(move);
+                        }
+                    }
+
+                    drawall(names);
+                    i += 1;
+                }
+                timerId = setTimeout(tick, 200);
+            }, 200);
+        }
+    })(virus);
+
+    function mainShow_virus(filePath) {
+        if (filePath) {
+            var contents = readTextFile(filePath);
+            var lines = contents.split('\n').filter(function(el) {
+                return el.length > 1;
+            });
+            virus.show_game(lines);
+        } else {
+            alert("No filePath")
+        }
+    }
+
+<% end %>

@@ -1,0 +1,13 @@
+<center>
+Запустить турнир:
+</center>
+<%= form_tag({:action => 'round_tournament', :controller => 'tournaments'}) do |f| %>
+    <%= hidden_field_tag 'game', current_game %>
+    <%= text_field_tag 'name', '', :placeholder => 'Tournament name' %><br>
+    <%= text_field_tag 'cgi', '', :placeholder => 'Additional CGI params' %><br>
+    <% @files_array.each_with_index do |filename, index| %>
+        <%= check_box_tag "source#{index}", filename %>
+        <%= label_tag :name, filename.split('/')[-1] %><br>
+    <% end %>
+    <%= button_tag 'Запустить' %>
+<% end %>

@@ -1,0 +1,125 @@
+#!/usr/bin/env ruby
+
+$pool = Hash.new
+$pool.default = -3
+(0..9).each{|i| (0..9).each {|j| $pool[[i, j]] = 0}}
+STDOUT.sync = true
+turn, winner, $score = 1, nil, [0, 0]
+$last = [0, 0, 0]
+
+def bfs(i0, j0, type, finish)
+    visited = {[i0, j0] => true}
+    q = [[i0, j0]]
+    type << finish
+    while (!q.empty?)
+        top = q.shift
+        (top[0]-1..top[0]+1).each do |i|
+            (top[1]-1..top[1]+1).each do |j|
+                if !visited[[i, j]] and type.include? $pool[[i, j]]
+                    if $pool[[i, j]] == finish
+                        return true
+                    end
+                    q.push [i, j]
+                    visited[[i, j]] = true
+                end
+            end
+        end
+    end
+    return false
+end
+
+class Hash
+    def win
+        a1, a2, a3, a4, reach_1, reach_2 = [], [], false, false, false, false
+        (0..9).each do |i|
+            (0..9).each do |j|
+                a1 << [i, j] if $pool[[i, j]] == 1
+                a2 << [i, j] if $pool[[i, j]] == 2
+                a3 |= [-1, 1].include? $pool[[i, j]]
+                a4 |= [-2, 2].include? $pool[[i, j]]
+            end
+        end
+        if a2.empty? and a4
+            $score = [a1.size, 0]
+            return 1
+        end
+        if a1.empty? and a3
+            $score = [0, a2.size]
+            return 2
+        end
+        a1.each { |i, j| reach_1 |= (bfs(i, j, [1, -2], 2) or bfs(i, j, [0], 0)) }
+        a2.each { |i, j| reach_2 |= (bfs(i, j, [2, -1], 1) or bfs(i, j, [0], 0)) }
+        if !reach_1 and !reach_2 and a3 and a4
+            $score = [a1.size, a2.size]
+            return 0
+        end
+        if !reach_2 and a4
+            $score = [a1.size, 0]
+            return 1
+        end
+        if !reach_1 and a3
+            $score = [0, a2.size]
+            return 2
+        end
+        return nil
+    end
+end
+
+
+def final winner
+    if winner and $score
+        main_score = ["1:1", "2:0", "0:2"][$score[0] <=> $score[1]]
+        second_score = $score[0].to_s + ':' + $score[1].to_s
+        return main_score + " (" + second_score + ")"
+    else
+        return ''
+    end
+end
+
+def valid(s, turn)
+    return false if ![2, 4, 6].include? s.length
+    if [2, 4].include? s.length
+        $last[turn] += 1
+        return false if $last[turn] > 1
+    end
+    (0..s.length-1).each do |i|
+        return false if !('0'..'9').include? s[i]
+    end
+    (s.length / 2).times do |t|
+        i, j = s[t * 2].to_i, s[t * 2 + 1].to_i
+        return false if ![0, 3 - turn].include? $pool[[i, j]]
+        return false if $pool[[i, j]] == 0 and !(bfs(i, j, [turn], turn) or (t == 0 and [i, j] == [(turn - 1) * 9, (turn - 1) * 9]))
+        return false if $pool[[i, j]] == 3 - turn and !bfs(i, j, [turn, -(3 - turn)], turn)
+        $pool[[i, j]] = ($pool[[i, j]] == 3 - turn) ? -(3 - turn) : turn 
+    end
+    return true
+end
+
+while true
+    case (s = gets.chomp)[0]
+    when 'i' then
+        winner ||= 3 - turn
+        $score[turn - 1] = -1;
+        print winner.to_s + final(winner) + "\n"
+    when 'f' then
+        winner ||= $pool.win
+        print winner.to_s + final(winner) + "\n"
+    when 'c' then
+        gets
+        puts 'OK'
+    else
+        s = s[1..-1]
+        if (!winner and valid(s, turn))
+            turn = 3 - turn
+            if winner ||= $pool.win
+                print winner.to_s + final(winner) + "\n"
+            else
+                print " " + s + "\n"
+            end
+        else
+            winner ||= 3 - turn
+            $score[turn - 1] = -1;
+            print "i" + final(winner) + "\n"
+        end
+    end
+end

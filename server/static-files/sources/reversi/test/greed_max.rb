@@ -1,0 +1,99 @@
+#!/usr/bin/env ruby
+
+def go_direction pool, start, i, j, turn, to_change
+    count, go = 0, [0, 0]
+    go[0] = start[0] + i
+    go[1] = start[1] + j
+
+    while pool[go] != 0 and pool[go] != turn
+        go[0] += i
+        go[1] += j
+        count += 1
+    end
+
+    return 0 if pool[go] == 0
+    return count if not to_change
+
+    go[0] -= i
+    go[1] -= j
+
+    while pool[go] != pool[start]
+        pool[go] = turn
+        go[0] -= i
+        go[1] -= j
+    end
+
+    return count
+end
+
+class Hash
+    def valid s, turn, to_change
+        return 0 if s.length != 2
+        return 0 if !('a'..'h').include?(s[0])
+        return 0 if !('1'..'8').include?(s[1])
+        m = [s[0].ord - 'a'.ord + 1, s[1].to_i]
+        return 0 if self[m] != 0
+        self[m] = turn if to_change
+        
+        sum = 0
+        [-1, 0, 1].each do |i|
+            [-1, 0, 1].each do |j|
+                sum += go_direction(self, m, i, j, turn, to_change) if i != 0 || j != 0
+            end
+        end
+        return sum
+    end
+
+    def formprint
+        w = {1=>'a', 2=>'b', 3=>'c', 4=>'d', 5=>'e', 6=>'f', 7=>'g', 8=>'h'}
+        STDERR.puts " 12345678"
+        (1..8).each do |i|
+            STDERR.print w[i]
+            (1..8).each do |j|
+                STDERR.print "*" if self[[i, j]] == 1
+                STDERR.print "&" if self[[i, j]] == 2
+                STDERR.print "_" if self[[i, j]] == 0
+            end
+            STDERR.puts
+        end
+        sleep 0.5
+    end
+end
+
+def make_move pool, turn
+    move = "Skip"
+    max_sum = 0
+    ('a'..'h').each do |a|
+        ('1'..'8').each do |b|
+            s = pool.valid(a + b, turn, false)
+            move, max_sum = a + b, s if s > max_sum
+        end
+    end
+    return move
+end
+
+def update_pool pool, move, turn
+    pool.valid(move, turn, true)
+end
+
+pool = Hash.new(0)
+STDOUT.sync = true
+turn, winner, score = 1, nil, [0, 0, 0]
+
+pool[[4, 4]] = 2
+pool[[5, 5]] = 2
+pool[[4, 5]] = 1
+pool[[5, 4]] = 1
+
+turn = gets.chomp.to_i
+if turn == 1
+    m = make_move(pool, turn)
+    puts m
+    update_pool(pool, m, turn)
+end
+loop do
+    update_pool(pool, gets.chomp, 3 - turn)
+    m = make_move(pool, turn)
+    puts m
+    update_pool(pool, m, turn)
+end

@@ -1,0 +1,21 @@
+<% @runners.each do |r| %>
+    <%= r.host.to_s %> |
+    <% if r.status == 'load' %>
+        <%= link_to 'load', :action => :unload, :host_id => r.id %>
+    <% else %>
+        <%= link_to 'free' %>
+    <% end %>
+    | <%= link_to 'Delete', {
+            :action => :delete,
+            :id => r.id},
+            :method => :post,
+            data: { confirm: 'Are you sure?' } %>
+    <br>
+<% end %>
+<br>
+New runner:
+<%= form_tag({:action => 'new'}) do |f| %>
+    <%= hidden_field_tag 'status', 'free' %>
+    <%= text_field 'host', '', :placeholder => 'localhost:4567' %><br>
+    <%= button_tag 'Submit' %>
+<% end %>

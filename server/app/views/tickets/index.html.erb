@@ -1,0 +1,67 @@
+Здесь вы можете задать любые вопросы о проверяющей системе.<br>
+Если вы наткнулись на баг или на проблему, пожалуйста, опишите также шаги для её воспроизведения.
+
+<%= form_tag({:action => 'new'}) do |f| %>
+    <%= hidden_field_tag('author', current_user.email) %>
+    <%= text_area 'text', '', size: "60x5", placeholder: "Пожалуйста, опишите свою проблему здесь.." %><br>
+    <%= button_tag 'Отправить' %>
+<% end %>
+<br>
+
+<%= javascript_tag do %>
+    divs = [];
+<% end %>
+
+<table width="70%" border=1px style="border-collapse: collapse;">
+<% @tickets.reverse.each do |t| %>
+  <tr>
+    <td width="10%"><center><%= t.author %></center></td>
+    <td width="50%"><%= t.text %></td>
+    <td id="status_td_<%=t.id%>"></td>
+    <%= javascript_tag do %>
+        var div_elem = document.createElement("DIV");
+        div_elem.innerHTML = '<%=j t.status.to_s %>';
+        div_elem.id = '<%=j t.id.to_s %>';
+        document.getElementById('status_td_' + '<%=j t.id.to_s %>').appendChild(div_elem);
+        divs.push(div_elem);
+    <% end %>
+    <td width="10%">
+        <center>
+            <%= link_to 'Удалить', {:action => :delete, :id => t.id}, :method => :post, data: { confirm: 'Are you sure?' } %>
+        </center>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<%= javascript_tag do %>
+    for (var i = 0; i < divs.length; ++i) {
+        divs[i].ondblclick = (function(i) {
+            return function() {
+                if (divs[i].contentEditable == "inherit" || divs[i].contentEditable == "false") {
+                    divs[i].contentEditable = true;
+                    var button = document.createElement("BUTTON");
+                    button.innerHTML = "save";
+                    button.id = divs[i].id + "button";
+                    button.onclick = function(){ SaveStatus(divs[i]) }
+                    divs[i].parentNode.appendChild(button);
+                }
+            };
+        })(i);
+    }
+
+    function SaveStatus(d) {
+        var b = document.getElementById(d.id + "button");
+        b.parentNode.removeChild(b);
+        d.contentEditable = false;
+        var params = "status=" + d.innerHTML + "&ticket_id=" + d.id;
+
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("POST", '<%=j root_url %>' + '/tickets/save', true);
+        xmlHttp.setRequestHeader('X-CSRF-Token', '<%=j form_authenticity_token %>');
+        xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlHttp.setRequestHeader("Content-length", params.length);
+        xmlHttp.setRequestHeader("Connection", "close");
+        xmlHttp.send(params);
+    }
+<% end %>

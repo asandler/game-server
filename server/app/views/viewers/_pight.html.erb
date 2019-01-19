@@ -1,0 +1,251 @@
+<center>
+    <table cellspacing=0 cellpadding=0 style="border-collapse: collapse; border: 1px solid black;">
+        <% 30.times do |i| %>
+            <tr>
+            <% 40.times do |j| %>
+                <td class="rsquare-little cell-reversi" id="c<%=i%>_<%=j%>">
+                    <%= image_tag('viewers/pight/white.png', :border => 0, :alt => 'E', :width => 12, :height => 12) %>
+                </td>
+            <% end %>
+            </tr>
+        <% end %>
+    </table>
+
+    <%= tag "input", { "type" => "button", "value" => "Pause", "onclick" => "pight.pause()" } %>
+
+    <div class="text">
+        <table cellpadding=0 cellspacing=0>
+            <tr>
+                <td style="text-align:right">
+                    <span style="font-size: 28px">
+                        <span id="left_score">0</span>
+                    </span>
+                </td>
+                <td>
+                    <span style="font-size: 28px">
+                        &nbsp;:&nbsp;
+                    </span>
+                </td>
+                <td style="text-align:left">
+                    <span style="font-size: 28px">
+                        <span id="right_score">0</span>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right">
+                    <span style="font-size: 28px">
+                        <span id="player1_name"></span>
+                    </span>
+                </td>
+                <td>
+                    <span style="font-size: 28px">
+                        &nbsp;-&nbsp;
+                    </span>
+                </td>
+                <td style="text-align:left">
+                    <span style="font-size: 28px">
+                        <span id="player2_name"></span>
+                    </span>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <div id="messages">
+        </div>
+    </div>
+</center>
+
+<%= javascript_tag do %>
+
+    pight = {};
+
+    (function(context) {
+
+        var images = [
+            '<%= asset_path('viewers/pight/food.png') %>',
+            '<%= asset_path('viewers/pight/white.png') %>',
+            '<%= asset_path('viewers/pight/red.png') %>',
+            '<%= asset_path('viewers/pight/green.png') %>',
+            '<%= asset_path('viewers/pight/food_red.png') %>',
+            '<%= asset_path('viewers/pight/food_green.png') %>'
+        ];
+
+        var circles = new Array(30 * 40);
+        var snakes = [[], [[3, 0], [2, 0], [1, 0], [0, 0]], [[26, 39], [27, 39], [28, 39], [29, 39]]];
+        var directions = [[], [1, 0], [-1, 0]];
+
+        var r_rot = {'10': [0, -1], '0-1': [-1, 0], '-10': [0, 1], '01': [1, 0]};
+        var l_rot = {'10': [0, 1], '01': [-1, 0], '-10': [0, -1], '0-1': [1, 0]};
+
+        var turn = 0;
+        var do_pause = false;
+
+        context.pause = function() {
+            do_pause = !do_pause;
+        }
+
+        function drawtext(names) {
+            var scores = [snakes[1].length - 4, snakes[2].length - 4];
+
+            $('#left_score').html(scores[0]);
+            $('#right_score').html(scores[1]);
+
+            $('#player1_name').html(names[1]);
+            $('#player2_name').html(names[2]);
+        }
+
+        function add_circ(i, j) {
+            $('#c' + i + '_' + j).find('img').attr('src', images[0]);
+            circles[i * 40 + j] = true;
+        }
+
+        function remove_circ(i, j, clr) {
+            $('#c' + i + '_' + j).find('img').attr('src', images[1 + clr]);
+            circles[i * 40 + j] = false;
+        }
+
+        function highlight_rect(i, j, clr) {
+            if (circles[i * 40 + j]) {
+                $('#c' + i + '_' + j).find('img').attr('src', images[3 + clr]);
+            } else {
+                $('#c' + i + '_' + j).find('img').attr('src', images[1 + clr]);
+            }
+        }
+
+        function unhighlight_rect(i, j) {
+            $('#c' + i + '_' + j).find('img').attr('src', images[1]);
+        }
+        
+        function translate(a) {
+            return String(a[0]) + String(a[1]);
+        }
+
+        function domove(move) {
+            if (move == "L") {
+                directions[turn] = l_rot[translate(directions[turn])];
+            }
+            if (move == "R") {
+                directions[turn] = r_rot[translate(directions[turn])];
+            }
+
+            var new_head = [snakes[turn][0][0] + directions[turn][0], snakes[turn][0][1] + directions[turn][1]];
+            snakes[turn].unshift(new_head);
+            highlight_rect(new_head[0], new_head[1], turn);
+
+            var tail = snakes[turn][snakes[turn].length - 1];
+            if (!circles[tail[0] * 40 + tail[1]]) {
+                snakes[turn].pop();
+                unhighlight_rect(tail[0], tail[1]);
+            } else {
+                remove_circ(tail[0], tail[1], turn);
+            }
+        }
+
+        function init_board(field) {
+            snakes = [[], [[3, 0], [2, 0], [1, 0], [0, 0]], [[26, 39], [27, 39], [28, 39], [29, 39]]];
+            directions = [[], [1, 0], [-1, 0]];
+
+            for (var i = 0; i < 30; ++i) {
+                for (var j = 6; j < 46; ++j) {
+                    circles[i * 40 + j - 6] = false;
+                    if (field[i][j] == '1') {
+                        add_circ(i, j - 6);
+                    } else {
+                        unhighlight_rect(i, j - 6);
+                    }
+                }
+            }
+
+            for (var i = 0; i < snakes[1].length; ++i) {
+                highlight_rect(snakes[1][i][0], snakes[1][i][1], 1);
+            }
+            for (var i = 0; i < snakes[2].length; ++i) {
+                highlight_rect(snakes[2][i][0], snakes[2][i][1], 2);
+            }
+        }
+
+        context.show_game = function(lines, field) {
+            var i = 0;
+            var names = ["Draw", "", ""];
+            var match_names = ["Draw", "", ""];
+            var messages = document.getElementById('messages');
+            messages.innerHTML = "";
+            var alert_message = "";
+
+            var timer = setInterval(function() {
+                if (do_pause) {
+                    return;
+                }
+                if (lines[i].indexOf("1 >>") < 0 && lines[i].indexOf("1 <<") < 0 && lines[i].indexOf("2 >>") < 0 && lines[i].indexOf("2 <<") < 0) {
+                    if (lines[i].indexOf("match:") >= 0) {
+                        messages.innerHTML = "";
+                    }
+                    if (lines[i].indexOf("player1:") >= 0) {
+                        names[1] = lines[i].substr(9);
+                        if (match_names[1] == "") {
+                            match_names[1] = names[1];
+                        }
+                    }
+                    if (lines[i].indexOf("player2:") >= 0) {
+                        init_board(field);
+                        names[2] = lines[i].substr(9);
+                        if (match_names[2] == "") {
+                            match_names[2] = names[2];
+                        }
+
+                        alert_message = "";
+                    }
+                    if (lines[i].indexOf("0 >> ") >= 0) {
+                        if (lines[i].indexOf("0 >> Winner:") >= 0) {
+                            winner = parseInt(lines[i].substr(13));
+                            messages.innerHTML += "Winner: " + names[winner] + "<br>";
+                            alert_message += "Winner: " + names[winner] + "\n";
+
+                        } else if (lines[i].indexOf("0 >> Score:") >= 0) {
+                            messages.innerHTML += lines[i].substr(5) + "<br><br>";
+                            alert_message += lines[i].substr(5) + "\n";
+                            alert(alert_message);
+
+                        } else {
+                            alert_message += lines[i].substr(5) + "\n";
+                        }
+                    }
+                    if (lines[i].indexOf("winner:") >= 0) {
+                        messages.innerHTML += "Match winner: " + match_names[parseInt(lines[i].substr(8))] + "<br>";
+                    }
+                    if (lines[i].indexOf("score:") >= 0) {
+                        messages.innerHTML += "Total score: " + lines[i].substr(7) + "<br>";
+                    }
+
+                } else {
+
+                    if (lines[i].indexOf(">>") > 0) {
+                        var move = lines[i].substr(5);
+                        turn = parseInt(lines[i].charAt(0));
+                        domove(move);
+                    }
+                }
+
+                drawtext(names);
+                i = i + 1;
+            }, 50);
+        }
+    })(pight);
+
+    function mainShow_pight(filePath) {
+        if (filePath) {
+            var contents = readTextFile(filePath);
+            var lines = contents.split('\n').filter(function(el) {
+                return ((el.length > 1) && (el.length < 40));
+            });
+            var field = contents.split('\n').filter(function(el) {
+                return el.length > 40;
+            });
+            pight.show_game(lines, field);
+        } else {
+            alert("No filePath")
+        }
+    }
+
+<% end %>

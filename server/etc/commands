@@ -1,0 +1,37 @@
+RAILS_ENV=production bundle exec rake assets:precompile
+RAILS_ENV=production bundle exec rake db:migrate
+RAILS_ENV=production bundle exec rake db:rollback
+RAILS_ENV=production rake assets:precompile
+RAILS_ENV=production rake secret
+export SECRET_KEY_BASE=<INSERT_YOUR_SECRET_KEY_BASE_HERE>
+
+\curl -sSL https://get.rvm.io | bash
+
+bin/rails server
+
+bin/rails server -b 192.168.26.94 -e production
+
+bundle install
+bundle install --deployment --verbose --without test --without development
+bundle install --no-deployment
+
+curl -F "player1=@random.rb" -F "player2=@random.rb" -F "game=tictactoe" -F "count=1" http://localhost:4567/run
+
+find -maxdepth 3
+find . -wholename "*/*/*/*" | grep -v -E "asandler|combalg|test|admin"
+find . | grep -v -E "asandler|combalg|test|admin"
+find . | grep -v -E "asandler|combalg|test|admin" | awk -F'/' '{if (NF == 4) { print $3"\t"$2}}' | uniq
+
+rake assets:precompile
+rake db:migrate
+rake db:test:prepare
+
+wget http://download.redis.io/redis-stable.tar.gz
+redis-server
+
+sidekiq -c 4 -e production
+
+thin start -C thin.yml -s 4 -p 4567
+
+sudo ln -s /home/combalg/.rvm/rubies/ruby-2.2.2/bin/ruby /bin/ruby
+sudo locale-gen ru_RU.UTF-8

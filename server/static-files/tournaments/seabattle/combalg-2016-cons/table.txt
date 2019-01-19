@@ -1,0 +1,6 @@
+               ponomarev.py   rodionov.cpp   okopnaya.py    pikulin.py     denisenko.cpp  score          bonus          
+ponomarev.py                  4:0 (47:40)    4:0 (51:40)    4:0 (66:40)    4:0 (72:40)    16             236            
+rodionov.cpp   0:4 (40:47)                   4:0 (51:40)    4:0 (49:40)    4:0 (70:40)    12             210            
+okopnaya.py    0:4 (40:51)    0:4 (40:51)                   2:2 (43:43)    4:0 (70:40)    6              193            
+pikulin.py     0:4 (40:66)    0:4 (40:49)    2:2 (43:43)                   4:0 (70:40)    6              193            
+denisenko.cpp  0:4 (40:72)    0:4 (40:70)    0:4 (40:70)    0:4 (40:70)                   0              160            

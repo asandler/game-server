@@ -1,0 +1,39 @@
+<%= form_for(@user) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %>:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if Rails.application.config.allow_external_registration or (current_user and current_user.email == 'admin') %>
+      <div class="field">
+        <%= f.label "Логин" %><br>
+        <%= f.text_field :email %>
+      </div>
+  <% end %>
+  <div class="field" hidden="true">
+    <%= f.label :email %><br>
+    <%= f.text_field :username, :value => "not.important@domain.com" %>
+  </div>
+  <div class="field" hidden="true">
+    <%= f.label :tab_number %><br>
+    <%= f.text_field :tab_number, :value => "0" %>
+  </div>
+  <div class="field">
+    <%= f.label "Пароль" %><br>
+    <%= f.password_field :password %>
+  </div>
+  <div class="field">
+    <%= f.label "Подтвердите пароль" %><br>
+    <%= f.password_field :password_confirmation %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Сохранить" %>
+  </div>
+<% end %>

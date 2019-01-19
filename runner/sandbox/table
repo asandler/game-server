@@ -1,0 +1,71 @@
+#!/usr/bin/env ruby
+
+class String
+    def formprint
+        if self.length < 14
+            print self, " " * (15 - self.length)
+        else
+            print self[0..13], " "
+        end
+    end
+end
+
+table, names, scores1, scores2 = {}, [], {}, {}
+curr1, curr2 = "", ""
+scores1.default = 0
+scores2.default = 0
+
+a = readlines.map{ |s| (s.index("player1:") or s.index("player2:") or s.index("0 >> Score:")) ? s : nil }.compact.each{ |s| s.strip! }
+
+a.each do |s|
+    if s.index("player1:")
+        curr1 = s[s.index(":") + 2..-1]
+        names << curr1
+    elsif s.index("player2:")
+        curr2 = s[s.index(":") + 2..-1]
+        names << curr2
+    else
+        scores = s[s.index(':') + 2..-1]
+        m = scores.split(' ')[0].split(':')
+        s = scores.split(' ')[1][1..-2].split(':')
+
+        scores1[curr1] += m[0].to_i
+        scores2[curr1] += s[0].to_i
+
+        scores1[curr2] += m[1].to_i
+        scores2[curr2] += s[1].to_i
+
+        scores1[[curr1, curr2]] += m[0].to_i
+        scores1[[curr2, curr1]] += m[1].to_i
+
+        scores2[[curr1, curr2]] += s[0].to_i
+        scores2[[curr2, curr1]] += s[1].to_i
+    end
+end
+
+names = names.uniq.compact.sort{|b, a| scores1[a] == scores1[b] ? scores2[a] <=> scores2[b] : scores1[a] <=> scores1[b] }
+names.each do |n1|
+    names.each do |n2|
+        if n1 == n2
+            table[[n1, n2]] = ""
+        else
+            table[[n1, n2]] = scores1[[n1, n2]].to_s + ":" + scores1[[n2, n1]].to_s + " (" + scores2[[n1, n2]].to_s + ":" + scores2[[n2, n1]].to_s + ")"
+        end
+    end
+end
+
+"".formprint
+names.each{ |s| s.formprint }
+"score".formprint
+"bonus".formprint
+puts
+
+names.each do |a|
+    a.formprint
+    names.each do |b|
+        table[[a, b]].formprint
+    end
+    scores1[a].to_s.formprint
+    scores2[a].to_s.formprint
+    puts
+end

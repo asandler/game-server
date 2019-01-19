@@ -1,0 +1,7 @@
+               feldsherov_sla zhukov_vlad.pa sidtikov_ruzal abramov_maxim. berdnikov_pave shabalov_serge score          bonus          
+feldsherov_sla                2:2 (14:9)     2:2 (5:5)      4:0 (44:0)     4:0 (13:0)     4:0 (0:-2)     16             76             
+zhukov_vlad.pa 2:2 (9:14)                    4:0 (20:0)     2:2 (8:22)     4:0 (4:0)      4:0 (10:-1)    16             51             
+sidtikov_ruzal 2:2 (5:5)      0:4 (0:20)                    4:0 (38:0)     4:0 (25:0)     4:0 (0:-2)     14             68             
+abramov_maxim. 0:4 (0:44)     2:2 (22:8)     0:4 (0:38)                    4:0 (29:0)     4:0 (0:-2)     10             51             
+berdnikov_pave 0:4 (0:13)     0:4 (0:4)      0:4 (0:25)     0:4 (0:29)                    4:0 (0:-2)     4              0              
+shabalov_serge 0:4 (-2:0)     0:4 (-1:10)    0:4 (-2:0)     0:4 (-2:0)     0:4 (-2:0)                    0              -9             

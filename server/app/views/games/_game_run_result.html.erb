@@ -1,0 +1,79 @@
+<% if defined? tmp_game %>
+    <tr><td class="tableblock">
+        <b><%= lines[0].split[1] %></b> vs <b><%= lines[0].split[3] %></b><br>
+        Пожалуйста, подождите...
+    </td></tr>
+<% else %>
+
+    <% if lines.size > 0 %>
+        <% score = lines.select{|l| l.index("score:")}.map{|s| s[s.index(":") + 2..-1]}[0] %>
+        <% name1 = lines.select{|l| l.index("player1:")}.map{|s| s[s.index(":") + 2..-1]}[0] %>
+        <% name2 = lines.select{|l| l.index("player2:")}.map{|s| s[s.index(":") + 2..-1]}[0] %>
+        <% matches_count = lines.select{|l| l.index("player1:")}.size / 2 %>
+
+        <tr><td class="tableblock">
+            <table width="100%"><tr><td width="95%">
+                <b><%= name1 %></b> vs <b><%= name2 %></b><br>
+                <b>Счёт:</b> <%= score %><br>
+                Количество матчей: <%= matches_count %><br>
+                <%= link_to 'Лог игры',
+                    {:action => :download_file, :controller => 'games',
+                    :path => "static-files/games/#{current_game}/#{@user.email}/#{match_file}"
+                    },
+                    :method => :post %> |
+                <%= link_to 'Посмотреть игру', '',
+                    :remote => true,
+                    :onclick => "mainShow_#{current_game}('static-files/games/#{current_game}/#{@user.email}/#{match_file}')" %> |
+                <%= link_to 'stderr',
+                    {:action => :download_file, :controller => 'games',
+                    :path => "static-files/games/#{current_game}/#{@user.email}/#{match_file.gsub('output', 'err')}"},
+                    :method => :post %>
+            </td><td>
+                <%= link_to image_tag('delete.png', :border => 0, :alt => 'Delete', :width => 16, :height => 16),
+                    {:action => :delete_game, :controller => 'games',
+                     :dir => "static-files/games/#{current_game}/#{@user.email}/#{match_file.split('/')[0]}"
+                    },
+                    :method => :post,
+                    data: { confirm: 'Вы уверены?' }
+                %>
+            </td><tr></table>
+        </td></tr>
+
+    <% else %>
+
+        <% if File.open(match_root + match_file.gsub('output', 'err')).read.index("ERROR") %>
+            <tr><td class="tableblock">
+                <table width="100%"><tr><td width="95%">
+                Запуск завершился с ошибками.<br>
+                <%= link_to 'stderr',
+                    {:action => :download_file, :controller => 'games',
+                    :path => "static-files/games/#{current_game}/#{@user.email}/#{match_file.gsub('output', 'err')}"
+                    },
+                    :method => :post %>
+                </td><td>
+                    <%= link_to image_tag('delete.png', :border => 0, :alt => 'Delete', :width => 16, :height => 16),
+                        {:action => :delete_game, :controller => 'games',
+                         :dir => "static-files/games/#{current_game}/#{@user.email}/#{match_file.split('/')[0]}"
+                        },
+                        :method => :post,
+                        data: { confirm: 'Вы уверены?' }
+                    %>
+                </td><tr></table>
+            </td></tr>
+        <% else %>
+            <tr><td class="tableblock">
+                Ошибка в формате лога <%= match_file %>. Сообщите, пожалуйста, Андрею Сандлеру.<br>
+                <%= link_to 'Лог игры',
+                    {:action => :download_file, :controller => 'games',
+                    :path => "static-files/games/#{current_game}/#{@user.email}/#{match_file}"
+                    },
+                    :method => :post %> |
+                <%= link_to 'stderr',
+                    {:action => :download_file, :controller => 'games',
+                    :path => "static-files/games/#{current_game}/#{@user.email}/#{match_file.gsub('output', 'err')}"
+                    },
+                    :method => :post %>
+            </td></tr>
+        <% end %>
+    <% end %>
+<% end %>

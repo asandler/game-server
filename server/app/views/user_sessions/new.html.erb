@@ -1,0 +1,7 @@
+<h1>Проверяющий сервер Combalg-2016</h1>
+
+<% if not Rails.application.config.allow_external_registration %>
+    <h2>Залогиньтесь или попросите логин-пароль у Андрея Сандлера</h2>
+<% end %>
+
+<%= render 'form' %>

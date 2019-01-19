@@ -1,0 +1,1205 @@
+player1: canttfly.py
+player2: danddhapp.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 8
+2 << 8
+2 >> 2
+1 << 2
+1 >> 1
+2 << 1
+2 >> 7
+1 << 7
+1 >> 6
+2 << 6
+2 >> 3
+1 << 3
+1 >> 5
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: danddhapp.cpp
+player2: canttfly.py
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 8
+2 << 8
+2 >> 1
+1 << 1
+1 >> 7
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: canttfly.py
+player2: platypus.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 8
+2 << 8
+2 >> 2
+1 << 2
+1 >> 1
+2 << 1
+2 >> 7
+1 << 7
+1 >> 6
+2 << 6
+2 >> 3
+1 << 3
+1 >> 5
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: platypus.cpp
+player2: canttfly.py
+1 << 1
+2 << 2
+1 >> 0
+2 << 0
+2 >> 4
+1 << 4
+1 >> 1
+2 << 1
+2 >> 2
+1 << 2
+1 >> 6
+2 << 6
+2 >> 3
+1 << 3
+1 >> 5
+2 << 5
+2 >> 7
+1 << 7
+1 >> 8
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: canttfly.py
+player2: sdjenjer.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 8
+2 << 8
+2 >> 2
+1 << 2
+1 >> 1
+2 << 1
+2 >> 7
+1 << 7
+1 >> 6
+2 << 6
+2 >> 3
+1 << 3
+1 >> 5
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: sdjenjer.cpp
+player2: canttfly.py
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 1
+2 << 1
+2 >> 7
+1 << 7
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 8
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: danddhapp.cpp
+player2: danonofficial.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 5
+1 << 5
+1 >> 0
+2 << 0
+0 >> Time limit exceeded2
+0 >> Winner: 1
+0 >> Score: 1:0 (1:0)
+
+
+player1: danonofficial.cpp
+player2: danddhapp.cpp
+1 << 1
+2 << 2
+1 >> 5
+2 << 5
+2 >> 4
+1 << 4
+0 >> Time limit exceeded1
+0 >> Winner: 2
+0 >> Score: 0:1 (0:1)
+
+
+player1: danddhapp.cpp
+player2: dark.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 3
+1 << 3
+1 >> 0
+2 << 0
+2 >> 7
+1 << 7
+1 >> 8
+0 >> Winner: 1
+0 >> Score: 1:0 (1:0)
+
+
+player1: dark.cpp
+player2: danddhapp.cpp
+1 << 1
+2 << 2
+1 >> 8
+2 << 8
+2 >> 4
+1 << 4
+1 >> 6
+2 << 6
+2 >> 7
+1 << 7
+1 >> 3
+2 << 3
+2 >> 0
+1 << 0
+1 >> 5
+2 << 5
+2 >> 2
+1 << 2
+1 >> 1
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: danddhapp.cpp
+player2: goatman.py
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 8
+2 << 8
+2 >> 7
+1 << 7
+1 >> 1
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: goatman.py
+player2: danddhapp.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 8
+2 << 8
+2 >> 1
+1 << 1
+1 >> 7
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: canttfly.py
+player2: danonofficial.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 5
+1 << 5
+1 >> 0
+2 << 0
+0 >> Time limit exceeded2
+0 >> Winner: 1
+0 >> Score: 1:0 (1:0)
+
+
+player1: danddhapp.cpp
+player2: igron99.py
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 8
+2 << 8
+2 >> 1
+1 << 1
+1 >> 7
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: igron99.py
+player2: danddhapp.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 7
+2 << 7
+2 >> 1
+1 << 1
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 8
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: danddhapp.cpp
+player2: platypus.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 8
+2 << 8
+2 >> 1
+1 << 1
+1 >> 7
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: platypus.cpp
+player2: danddhapp.cpp
+1 << 1
+2 << 2
+1 >> 0
+2 << 0
+2 >> 4
+1 << 4
+1 >> 1
+2 << 1
+2 >> 2
+1 << 2
+1 >> 6
+2 << 6
+2 >> 3
+1 << 3
+1 >> 5
+2 << 5
+2 >> 8
+1 << 8
+1 >> 7
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: danddhapp.cpp
+player2: sdjenjer.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 8
+2 << 8
+2 >> 1
+1 << 1
+1 >> 7
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: sdjenjer.cpp
+player2: danddhapp.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 1
+2 << 1
+2 >> 7
+1 << 7
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 8
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: danonofficial.cpp
+player2: dark.cpp
+1 << 1
+2 << 2
+1 >> 5
+2 << 5
+2 >> 0
+1 << 0
+0 >> Time limit exceeded1
+0 >> Winner: 2
+0 >> Score: 0:1 (0:1)
+
+
+player1: dark.cpp
+player2: danonofficial.cpp
+1 << 1
+2 << 2
+1 >> 5
+2 << 5
+2 >> 3
+1 << 3
+1 >> 1
+2 << 1
+2 >> 1
+0 >> 1:0 (1:0)
+0 >> Winner: 1
+0 >> Score: 1:0 (1:0)
+
+
+player1: danonofficial.cpp
+player2: goatman.py
+1 << 1
+2 << 2
+1 >> 5
+2 << 5
+2 >> 4
+1 << 4
+0 >> Time limit exceeded1
+0 >> Winner: 2
+0 >> Score: 0:1 (0:1)
+
+
+player1: goatman.py
+player2: danonofficial.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 6
+1 << 6
+1 >> 0
+2 << 0
+0 >> Time limit exceeded2
+0 >> Winner: 1
+0 >> Score: 1:0 (1:0)
+
+
+player1: danonofficial.cpp
+player2: canttfly.py
+1 << 1
+2 << 2
+1 >> 3
+2 << 3
+2 >> 0
+1 << 0
+0 >> Time limit exceeded1
+0 >> Winner: 2
+0 >> Score: 0:1 (0:1)
+
+
+player1: danonofficial.cpp
+player2: igron99.py
+1 << 1
+2 << 2
+1 >> 5
+2 << 5
+2 >> 0
+1 << 0
+0 >> Time limit exceeded1
+0 >> Winner: 2
+0 >> Score: 0:1 (0:1)
+
+
+player1: igron99.py
+player2: danonofficial.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 1
+1 << 1
+1 >> 0
+2 << 0
+0 >> Time limit exceeded2
+0 >> Winner: 1
+0 >> Score: 1:0 (1:0)
+
+
+player1: danonofficial.cpp
+player2: platypus.cpp
+1 << 1
+2 << 2
+1 >> 0
+2 << 0
+2 >> 4
+1 << 4
+0 >> Time limit exceeded1
+0 >> Winner: 2
+0 >> Score: 0:1 (0:1)
+
+
+player1: platypus.cpp
+player2: danonofficial.cpp
+1 << 1
+2 << 2
+1 >> 0
+2 << 0
+2 >> 7
+1 << 7
+1 >> 2
+2 << 2
+0 >> Time limit exceeded2
+0 >> Winner: 1
+0 >> Score: 1:0 (1:0)
+
+
+player1: danonofficial.cpp
+player2: sdjenjer.cpp
+1 << 1
+2 << 2
+1 >> 1
+2 << 1
+2 >> 0
+1 << 0
+0 >> Time limit exceeded1
+0 >> Winner: 2
+0 >> Score: 0:1 (0:1)
+
+
+player1: sdjenjer.cpp
+player2: danonofficial.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 3
+1 << 3
+1 >> 0
+2 << 0
+0 >> Time limit exceeded2
+0 >> Winner: 1
+0 >> Score: 1:0 (1:0)
+
+
+player1: dark.cpp
+player2: goatman.py
+1 << 1
+2 << 2
+1 >> 8
+2 << 8
+2 >> 4
+1 << 4
+1 >> 2
+2 << 2
+2 >> 5
+1 << 5
+1 >> 0
+2 << 0
+2 >> 1
+1 << 1
+1 >> 6
+2 << 6
+2 >> 3
+0 >> Winner: 2
+0 >> Score: 0:1 (0:1)
+
+
+player1: goatman.py
+player2: dark.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 8
+1 << 8
+1 >> 0
+2 << 0
+2 >> 2
+1 << 2
+1 >> 5
+2 << 5
+2 >> 6
+1 << 6
+1 >> 3
+0 >> Winner: 1
+0 >> Score: 1:0 (1:0)
+
+
+player1: dark.cpp
+player2: igron99.py
+1 << 1
+2 << 2
+1 >> 0
+2 << 0
+2 >> 8
+1 << 8
+1 >> 2
+2 << 2
+2 >> 1
+1 << 1
+1 >> 6
+2 << 6
+2 >> 3
+1 << 3
+1 >> 5
+2 << 5
+2 >> 4
+1 << 4
+1 >> 7
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: igron99.py
+player2: dark.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 5
+1 << 5
+1 >> 0
+2 << 0
+2 >> 3
+1 << 3
+1 >> 1
+2 << 1
+2 >> 2
+1 << 2
+1 >> 7
+0 >> Winner: 1
+0 >> Score: 1:0 (1:0)
+
+
+player1: canttfly.py
+player2: dark.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 7
+1 << 7
+1 >> 0
+2 << 0
+2 >> 8
+1 << 8
+1 >> 1
+2 << 1
+2 >> 3
+1 << 3
+1 >> 2
+0 >> Winner: 1
+0 >> Score: 1:0 (1:0)
+
+
+player1: dark.cpp
+player2: platypus.cpp
+1 << 1
+2 << 2
+1 >> 7
+2 << 7
+2 >> 1
+1 << 1
+1 >> 8
+2 << 8
+2 >> 6
+1 << 6
+1 >> 0
+2 << 0
+2 >> 4
+1 << 4
+1 >> 2
+2 << 2
+2 >> 5
+1 << 5
+1 >> 3
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: platypus.cpp
+player2: dark.cpp
+1 << 1
+2 << 2
+1 >> 0
+2 << 0
+2 >> 7
+1 << 7
+1 >> 2
+2 << 2
+2 >> 4
+1 << 4
+1 >> 1
+0 >> Winner: 1
+0 >> Score: 1:0 (1:0)
+
+
+player1: dark.cpp
+player2: sdjenjer.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 8
+2 << 8
+2 >> 3
+0 >> Winner: 2
+0 >> Score: 0:1 (0:1)
+
+
+player1: sdjenjer.cpp
+player2: dark.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 7
+1 << 7
+1 >> 0
+2 << 0
+2 >> 1
+1 << 1
+1 >> 2
+2 << 2
+2 >> 5
+1 << 5
+1 >> 3
+2 << 3
+2 >> 6
+1 << 6
+1 >> 8
+0 >> Winner: 1
+0 >> Score: 1:0 (1:0)
+
+
+player1: goatman.py
+player2: igron99.py
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 8
+2 << 8
+2 >> 1
+1 << 1
+1 >> 7
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: igron99.py
+player2: goatman.py
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 7
+2 << 7
+2 >> 1
+1 << 1
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 8
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: goatman.py
+player2: platypus.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 8
+2 << 8
+2 >> 1
+1 << 1
+1 >> 7
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: platypus.cpp
+player2: goatman.py
+1 << 1
+2 << 2
+1 >> 0
+2 << 0
+2 >> 4
+1 << 4
+1 >> 1
+2 << 1
+2 >> 2
+1 << 2
+1 >> 6
+2 << 6
+2 >> 3
+1 << 3
+1 >> 5
+2 << 5
+2 >> 8
+1 << 8
+1 >> 7
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: goatman.py
+player2: sdjenjer.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 8
+2 << 8
+2 >> 1
+1 << 1
+1 >> 7
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: sdjenjer.cpp
+player2: goatman.py
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 1
+2 << 1
+2 >> 7
+1 << 7
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 8
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: dark.cpp
+player2: canttfly.py
+1 << 1
+2 << 2
+1 >> 0
+2 << 0
+2 >> 4
+1 << 4
+1 >> 2
+2 << 2
+2 >> 1
+1 << 1
+1 >> 8
+2 << 8
+2 >> 3
+1 << 3
+1 >> 7
+2 << 7
+2 >> 5
+0 >> Winner: 2
+0 >> Score: 0:1 (0:1)
+
+
+player1: igron99.py
+player2: platypus.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 7
+2 << 7
+2 >> 1
+1 << 1
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 8
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: platypus.cpp
+player2: igron99.py
+1 << 1
+2 << 2
+1 >> 0
+2 << 0
+2 >> 8
+1 << 8
+1 >> 2
+2 << 2
+2 >> 1
+1 << 1
+1 >> 6
+2 << 6
+2 >> 3
+1 << 3
+1 >> 4
+0 >> Winner: 1
+0 >> Score: 1:0 (1:0)
+
+
+player1: igron99.py
+player2: sdjenjer.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 7
+2 << 7
+2 >> 1
+1 << 1
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 8
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: sdjenjer.cpp
+player2: igron99.py
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 1
+2 << 1
+2 >> 7
+1 << 7
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 8
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: platypus.cpp
+player2: sdjenjer.cpp
+1 << 1
+2 << 2
+1 >> 0
+2 << 0
+2 >> 4
+1 << 4
+1 >> 1
+2 << 1
+2 >> 2
+1 << 2
+1 >> 6
+2 << 6
+2 >> 3
+1 << 3
+1 >> 5
+2 << 5
+2 >> 7
+1 << 7
+1 >> 8
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: sdjenjer.cpp
+player2: platypus.cpp
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 1
+2 << 1
+2 >> 7
+1 << 7
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 8
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: canttfly.py
+player2: goatman.py
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 8
+2 << 8
+2 >> 6
+1 << 6
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 7
+2 << 7
+2 >> 1
+1 << 1
+1 >> 2
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: goatman.py
+player2: canttfly.py
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 8
+2 << 8
+2 >> 1
+1 << 1
+1 >> 7
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: canttfly.py
+player2: igron99.py
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 8
+2 << 8
+2 >> 2
+1 << 2
+1 >> 1
+2 << 1
+2 >> 7
+1 << 7
+1 >> 6
+2 << 6
+2 >> 3
+1 << 3
+1 >> 5
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
+player1: igron99.py
+player2: canttfly.py
+1 << 1
+2 << 2
+1 >> 4
+2 << 4
+2 >> 0
+1 << 0
+1 >> 7
+2 << 7
+2 >> 1
+1 << 1
+1 >> 2
+2 << 2
+2 >> 6
+1 << 6
+1 >> 3
+2 << 3
+2 >> 5
+1 << 5
+1 >> 8
+0 >> Winner: 0
+0 >> Score: 0:0 (0:0)
+
+
