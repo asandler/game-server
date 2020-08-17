@@ -1,8 +1,8 @@
 class RunGameJob < ActiveJob::Base
   queue_as :default
+  sidekiq_options retry: 0
 
   def perform(name, game_file_1, game_file_2, output_path, game_num, is_tournament, config_number=nil)
-
     File.open(output_path + "#{game_num}.output.tmp", "w") do |f|
         f.puts(game_file_1.split('/')[-1] + ' ' + game_file_2.split('/')[-1])
     end
@@ -12,7 +12,9 @@ class RunGameJob < ActiveJob::Base
 
     while true
         s.lock do
+            ActiveRecord::Base.connection.clear_query_cache
             free_runner = Runner.find_by(:status => 'free')
+
             if free_runner
                 free_runner.status = 'load'
                 free_runner.save

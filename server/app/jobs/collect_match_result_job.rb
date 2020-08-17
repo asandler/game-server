@@ -1,5 +1,6 @@
 class CollectMatchResultJob < ActiveJob::Base
   queue_as :default
+  sidekiq_options retry: 0
 
   def perform(match_path)
     tmp_match_file = File.open(match_path + 'match.output.tmp', 'r')

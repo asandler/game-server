@@ -1,6 +1,6 @@
 # Be sure to restart server after modifying this file.
 
-Rails.application.config.allow_external_registration = true
+Rails.application.config.allow_external_registration = false
 
 # ==== Send delays ====
 

@@ -1,0 +1,4 @@
+runs/*
+sandbox/battle
+server/log/*
+server/tmp/*

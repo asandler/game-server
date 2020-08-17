@@ -65,13 +65,15 @@
 
     <td width="30%" class="tableblock vertalign panel2">
         <div class="table-wrapper"><div class="table-scroll">
-            <center>
-                <% if @show_tournaments %>
-                    <%= link_to 'Показать матчи' %><br>
-                <% else %>
-                    <%= link_to 'Показать турниры', '/show_game?show_tournaments=1' %><br>
-                <% end %>
-            </center>
+            <% if current_user.email == "admin" %>
+                <center>
+                    <% if @show_tournaments %>
+                        <%= link_to 'Показать матчи' %><br>
+                    <% else %>
+                        <%= link_to 'Показать турниры', '/show_game?show_tournaments=1' %><br>
+                    <% end %>
+                </center>
+            <% end %>
             <table width="100%">
                 <% if @show_tournaments %>
                     <% tournaments = Dir.entries(@tournaments_root).keep_if{|s| not ['.', '..'].include? s}.sort %>

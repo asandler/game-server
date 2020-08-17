@@ -10,6 +10,7 @@ end
 
 class CollectRoundTournamentResultJob < ActiveJob::Base
   queue_as :default
+  sidekiq_options retry: 0
 
   def perform(tournament_path)
     games_count = File.open(tournament_path + 'trnfull.tmp', 'r').readline.to_i

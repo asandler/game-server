@@ -1,16 +1,8 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  before_filter :require_login
-#  before_filter :set_cache_buster
+  before_action :require_login
   protect_from_forgery with: :exception
-  after_filter :set_csrf_cookie_for_ng
-
-#  def set_cache_buster
-#    response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
-#    response.headers["Pragma"] = "no-cache"
-#    response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
-#  end
+  after_action :set_csrf_cookie_for_ng
 
   def set_csrf_cookie_for_ng
     cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
@@ -26,6 +18,7 @@ protected
     def verified_request?
         super || form_authenticity_token == request.headers['X-XSRF-TOKEN']
     end
+
 private
     def not_authenticated
         redirect_to login_path
