@@ -111,8 +111,8 @@ public:
             argv[1] = new char[200];
             strcpy(argv[1], path.c_str());
 
-            if (execve(path.c_str(), argv, (char**) NULL) == -1) {
-                throw Exception("Internal error (execve)");
+            if (execvp(path.c_str(), argv) == -1) {
+                throw Exception("Internal error (execvp)");
             }
 
             delete argv[1];
