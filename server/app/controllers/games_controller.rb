@@ -73,8 +73,16 @@ class GamesController < ApplicationController
     match_path = Rails.root.to_s + "/static-files/games/#{params[:game]}/#{current_user.email}/#{match_num}/"
     FileUtils.mkdir_p(match_path)
 
+    name_1 = params[:first].split('/')[-1]
+    name_2 = params[:second].split('/')[-1]
+
+    if name_1 == name_2
+        name_1 += "_1"
+        name_2 += "_2"
+    end
+
     File.open(match_path + "match.output.tmp", "w") do |f|
-        f.puts('match: ' + params[:first].split('/')[-1] + ' vs. ' + params[:second].split('/')[-1])
+        f.puts("match: #{name_1} vs. #{name_2}")
         f.puts('game: ' + params[:game])
         f.puts('games_count: ' + (2 * params[:count][0].to_i).to_s)
     end
