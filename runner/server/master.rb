@@ -76,12 +76,20 @@ post '/run' do
     game = params['game']
     sec = params['sec'] || '1'
     usec = params['usec'] || '0'
+
     tournament_game = ((params['tournament_game'].to_i == 1) ? true : false)
-    name1 = params['name1'] || params['player1'][:filename]
-    name2 = params['name2'] || params['player2'][:filename]
     config_number = params['config_number'] || '1'
 
+    name1 = params['name1'] || params['player1'][:filename]
+    name2 = params['name2'] || params['player2'][:filename]
+
+    if name1 == name2
+        name1 += "_1"
+        name2 += "_2"
+    end
+
     system("cd ../sandbox && ./run_game.sh #{game} #{tempdir}/player1 #{tempdir}/player2 #{sec} #{usec} #{tempdir} #{name1} #{name2} #{config_number} > #{tempdir}/run_log 2> #{tempdir}/run_log_err")
+
     if (%x[wc -l #{tempdir}/run_log_err]).to_s.split[0] == "0"
         if not tournament_game
             return File.open("#{tempdir}/play.output", "r").read + "\nSTDERR:\n" + File.open("#{tempdir}/play.err", "r").read + "\n"
