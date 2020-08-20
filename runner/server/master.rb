@@ -83,11 +83,6 @@ post '/run' do
     name1 = params['name1'] || params['player1'][:filename]
     name2 = params['name2'] || params['player2'][:filename]
 
-    if name1 == name2
-        name1 += "_1"
-        name2 += "_2"
-    end
-
     system("cd ../sandbox && ./run_game.sh #{game} #{tempdir}/player1 #{tempdir}/player2 #{sec} #{usec} #{tempdir} #{name1} #{name2} #{config_number} > #{tempdir}/run_log 2> #{tempdir}/run_log_err")
 
     if (%x[wc -l #{tempdir}/run_log_err]).to_s.split[0] == "0"

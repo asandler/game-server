@@ -99,8 +99,8 @@ class GamesController < ApplicationController
     params[:count][0].to_i.times do |n|
         config_number = rand(Rails.application.config.total_configs_number[params[:game]]) + 1
 
-        RunGameJob.perform_later(params[:game], player_1, player_2, match_path, n * 2, false, config_number)
-        RunGameJob.perform_later(params[:game], player_2, player_1, match_path, n * 2 + 1, false, config_number)
+        RunGameJob.perform_later(params[:game], player_1, player_2, name_1, name_2, match_path, n * 2, false, config_number)
+        RunGameJob.perform_later(params[:game], player_2, player_1, name_2, name_1, match_path, n * 2 + 1, false, config_number)
     end
 
     CollectMatchResultJob.perform_later(match_path)

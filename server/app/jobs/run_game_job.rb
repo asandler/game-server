@@ -2,7 +2,7 @@ class RunGameJob < ActiveJob::Base
   queue_as :default
   sidekiq_options retry: 0
 
-  def perform(name, game_file_1, game_file_2, output_path, game_num, is_tournament, config_number=nil)
+  def perform(name, game_file_1, game_file_2, name_1, name_2, output_path, game_num, is_tournament, config_number=nil)
     File.open(output_path + "#{game_num}.output.tmp", "w") do |f|
         f.puts(game_file_1.split('/')[-1] + ' ' + game_file_2.split('/')[-1])
     end
@@ -34,6 +34,8 @@ class RunGameJob < ActiveJob::Base
             :game => name,
             :player1 => File.new(game_file_1),
             :player2 => File.new(game_file_2),
+            :name1 => name_1,
+            :name2 => name_2,
             :count => 1,
             :sec => Rails.application.config.time_limits[name + ".sec"],
             :usec => Rails.application.config.time_limits[name + ".usec"],
