@@ -107,9 +107,10 @@ public:
                 cerr << "New interface detected" << endl;
             }
 
-            char **argv = new char*;
-            argv[1] = new char[200];
-            strcpy(argv[1], path.c_str());
+            char* argv[2];
+            argv[0] = new char[200];
+            argv[1] = NULL;
+            strcpy(argv[0], path.c_str());
 
             if (execvp(path.c_str(), argv) == -1) {
                 throw Exception("Internal error (execvp)");
