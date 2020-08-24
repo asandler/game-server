@@ -10,6 +10,13 @@
             </tr>
         <% end %>
     </table>
+
+    <br>
+    <div>
+        <%= tag "input", { "type" => "button", "value" => "Pause/Play", "onclick" => "reversi.pause()" } %>
+        <%= tag "input", { "type" => "button", "value" => "Step", "onclick" => "reversi.step()" } %>
+    </div>
+
     <div class="text">
         <table cellpadding=0 cellspacing=0>
             <tr>
@@ -68,14 +75,32 @@
             '<%= asset_path('viewers/reversi/white.gif') %>'
         ];
 
+        var do_pause = false;
+        var do_step = -1;
+
+        context.pause = function() {
+            do_pause = !do_pause;
+            do_step = -1;
+        }
+
+        context.step = function() {
+            do_pause = false;
+            if (do_step == -1) {
+                do_step = 2;
+            } else {
+                do_step = 1;
+            }
+        }
+
         function drawall(board, names) {
             $('.cell-reversi').each(function() {
                 $(this).find('img').attr('src', images[board.state(coords(this)) + 1]);
             });
+
             var scores = board.countsquares();
 
-            $('#left_score').html(scores[0]);
-            $('#right_score').html(scores[1]);
+            $('#right_score').html(scores[0]);
+            $('#left_score').html(scores[1]);
 
             $('#player1_name').html(names[1]);
             $('#player2_name').html(names[2]);
@@ -201,6 +226,9 @@
             var alert_message = "";
 
             var timer = setInterval(function() {
+                if (do_pause) {
+                    return;
+                }
                 if (lines[i].indexOf("1 >>") < 0 && lines[i].indexOf("1 <<") < 0 && lines[i].indexOf("2 >>") < 0 && lines[i].indexOf("2 <<") < 0) {
                     if (lines[i].indexOf("match:") >= 0) {
                         messages.innerHTML = "";
@@ -252,6 +280,12 @@
 
                 drawall(mainboard, names);
                 i = i + 1;
+
+                if (do_step > 0) {
+                    do_step = do_step - 1;
+                } else if (do_step == 0) {
+                    do_pause = true;
+                }
             }, 200);
         }
     })(reversi);
