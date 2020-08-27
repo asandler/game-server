@@ -48,8 +48,10 @@ class TournamentsController < ApplicationController
     n = 0
     (0..sources.size - 1).each do |i|
         (i + 1..sources.size - 1).each do |j|
-            RunGameJob.perform_later(params[:game], sources[i], sources[j], t_path + 'games/', n * 2, true, config_number)
-            RunGameJob.perform_later(params[:game], sources[j], sources[i], t_path + 'games/', n * 2 + 1, true, config_number)
+            name_1 = sources[i].split("/")[-1]
+            name_2 = sources[j].split("/")[-1]
+            RunGameJob.perform_later(params[:game], sources[i], sources[j], name_1, name_2, t_path + 'games/', n * 2, true, config_number)
+            RunGameJob.perform_later(params[:game], sources[j], sources[i], name_2, name_1, t_path + 'games/', n * 2 + 1, true, config_number)
             n += 1
         end
     end
