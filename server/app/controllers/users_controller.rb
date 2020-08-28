@@ -62,7 +62,7 @@ class UsersController < ApplicationController
             @test_array << ['---------'] if @files_array.size > 0
             @test_array += @files_array
 
-            (2012..2018).each do |year|
+            (2012..2025).each do |year|
                 if Dir.exists?("static-files/sources/" + @current_game + "/combalg/#{year}/")
                     combalg_array = Dir.entries("static-files/sources/" + @current_game + "/combalg/#{year}/").keep_if{|s| s[0] != "."}.sort.map{|s| "combalg/#{year}/" + s}
                     @test_array << ['---------'] if combalg_array.size > 0
