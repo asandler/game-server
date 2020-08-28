@@ -1,0 +1,6 @@
+               idanilin.cpp   amakrushin.py  tsnamzhilon.cp msuslov.py     estaroviotov.p score          bonus          
+idanilin.cpp                  4:0 (78:50)    4:0 (90:38)    4:0 (54:20)    4:0 (6:-2)     16             228            
+amakrushin.py  0:4 (50:78)                   2:2 (65:63)    4:0 (59:18)    4:0 (6:-2)     10             180            
+tsnamzhilon.cp 0:4 (38:90)    2:2 (63:65)                   2:2 (61:67)    4:0 (6:-2)     8              168            
+msuslov.py     0:4 (20:54)    0:4 (18:59)    2:2 (67:61)                   4:0 (6:-2)     6              111            
+estaroviotov.p 0:4 (-2:6)     0:4 (-2:6)     0:4 (-2:6)     0:4 (-2:6)                    0              -8             
