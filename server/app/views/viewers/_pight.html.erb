@@ -3,7 +3,7 @@
         <% 30.times do |i| %>
             <tr>
             <% 40.times do |j| %>
-                <td class="rsquare-little cell-reversi" id="c<%=i%>_<%=j%>">
+                <td class="rsquare-little cell-reversi" id="c_<%=i%>_<%=j%>">
                     <%= image_tag('viewers/pight/white.png', :border => 0, :alt => 'E', :width => 12, :height => 12) %>
                 </td>
             <% end %>
@@ -68,7 +68,11 @@
             '<%= asset_path('viewers/pight/red.png') %>',
             '<%= asset_path('viewers/pight/green.png') %>',
             '<%= asset_path('viewers/pight/food_red.png') %>',
-            '<%= asset_path('viewers/pight/food_green.png') %>'
+            '<%= asset_path('viewers/pight/food_green.png') %>',
+            '<%= asset_path('viewers/pight/red_head.png') %>',
+            '<%= asset_path('viewers/pight/green_head.png') %>',
+            '<%= asset_path('viewers/pight/food_red_head.png') %>',
+            '<%= asset_path('viewers/pight/food_green_head.png') %>'
         ];
 
         var circles = new Array(30 * 40);
@@ -96,7 +100,7 @@
         }
 
         function add_circ(i, j) {
-            $('#c' + i + '_' + j).find('img').attr('src', images[0]);
+            $('#c_' + i + '_' + j).find('img').attr('src', images[0]);
             circles[i * 40 + j] = true;
         }
 
@@ -107,14 +111,22 @@
 
         function highlight_rect(i, j, clr) {
             if (circles[i * 40 + j]) {
-                $('#c' + i + '_' + j).find('img').attr('src', images[3 + clr]);
+                $('#c_' + i + '_' + j).find('img').attr('src', images[3 + clr]);
             } else {
-                $('#c' + i + '_' + j).find('img').attr('src', images[1 + clr]);
+                $('#c_' + i + '_' + j).find('img').attr('src', images[1 + clr]);
             }
         }
 
         function unhighlight_rect(i, j) {
-            $('#c' + i + '_' + j).find('img').attr('src', images[1]);
+            $('#c_' + i + '_' + j).find('img').attr('src', images[1]);
+        }
+
+        function highlight_head(i, j, clr) {
+            if (circles[i * 40 + j]) {
+                $('#c_' + i + '_' + j).find('img').attr('src', images[7 + clr]);
+            } else {
+                $('#c_' + i + '_' + j).find('img').attr('src', images[5 + clr]);
+            }
         }
         
         function translate(a) {
@@ -129,9 +141,10 @@
                 directions[turn] = r_rot[translate(directions[turn])];
             }
 
+            var old_head = snakes[turn][0];
+            highlight_rect(old_head[0], old_head[1], turn);
             var new_head = [snakes[turn][0][0] + directions[turn][0], snakes[turn][0][1] + directions[turn][1]];
             snakes[turn].unshift(new_head);
-            highlight_rect(new_head[0], new_head[1], turn);
 
             var tail = snakes[turn][snakes[turn].length - 1];
             if (!circles[tail[0] * 40 + tail[1]]) {
@@ -140,6 +153,7 @@
             } else {
                 remove_circ(tail[0], tail[1], turn);
             }
+            highlight_head(new_head[0], new_head[1], turn);
         }
 
         function init_board(field) {
@@ -147,12 +161,12 @@
             directions = [[], [1, 0], [-1, 0]];
 
             for (var i = 0; i < 30; ++i) {
-                for (var j = 6; j < 46; ++j) {
-                    circles[i * 40 + j - 6] = false;
+                for (var j = 5; j < 45; ++j) {
+                    circles[i * 40 + j - 5] = false;
                     if (field[i][j] == '1') {
-                        add_circ(i, j - 6);
+                        add_circ(i, j - 5);
                     } else {
-                        unhighlight_rect(i, j - 6);
+                        unhighlight_rect(i, j - 5);
                     }
                 }
             }
@@ -240,7 +254,7 @@
                 return ((el.length > 1) && (el.length < 40));
             });
             var field = contents.split('\n').filter(function(el) {
-                return el.length > 40;
+                return el.indexOf("<<") > 0 && el.length > 40;
             });
             pight.show_game(lines, field);
         } else {

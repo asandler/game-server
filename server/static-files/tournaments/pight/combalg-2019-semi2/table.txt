@@ -1,0 +1,6 @@
+               BessonovMaxim. EkaterinaTochi GlebKashkin.py MarkLitvak.py  StepanSinyakov score          bonus          
+BessonovMaxim.                4:0 (76:39)    4:0 (20:-2)    4:0 (113:8)    4:0 (0:-2)     16             209            
+EkaterinaTochi 0:4 (39:76)                   4:0 (33:-2)    4:0 (111:9)    4:0 (0:-2)     12             183            
+GlebKashkin.py 0:4 (-2:20)    0:4 (-2:33)                   2:2 (45:13)    4:0 (0:-2)     6              41             
+MarkLitvak.py  0:4 (8:113)    0:4 (9:111)    2:2 (13:45)                   4:0 (0:-2)     6              30             
+StepanSinyakov 0:4 (-2:0)     0:4 (-2:0)     0:4 (-2:0)     0:4 (-2:0)                    0              -8             

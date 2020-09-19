@@ -36,7 +36,7 @@ class GamesController < ApplicationController
     name = params[:path]
     if name.index(current_user.email) || current_user.email == "admin"
         filename = File.join(Rails.root.to_s, params[:path])
-        send_file(filename, :type => 'text/plain', :disposition => 'inline')
+        send_file(filename, :type => 'text/plain; charset=utf-8', :disposition => 'inline')
     else
         redirect_to show_game_path
     end

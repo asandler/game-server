@@ -1,0 +1,7 @@
+               TimofeyBelitsk FedorovAlexand AndreyBelyaev. EgorElushov.cp MarinaShvetsov SilaevaVladisl score          bonus          
+TimofeyBelitsk                2:2 (92:83)    4:0 (114:48)   4:0 (129:1)    4:0 (0:-2)     4:0 (0:-2)     18             335            
+FedorovAlexand 2:2 (83:92)                   2:2 (58:39)    2:2 (55:0)     4:0 (0:-2)     4:0 (8:-2)     14             204            
+AndreyBelyaev. 0:4 (48:114)   2:2 (39:58)                   2:2 (39:1)     4:0 (0:-2)     4:0 (4:-2)     12             130            
+EgorElushov.cp 0:4 (1:129)    2:2 (0:55)     2:2 (1:39)                    4:0 (0:-2)     4:0 (0:-2)     12             2              
+MarinaShvetsov 0:4 (-2:0)     0:4 (-2:0)     0:4 (-2:0)     0:4 (-2:0)                    2:2 (-1:-1)    2              -9             
+SilaevaVladisl 0:4 (-2:0)     0:4 (-2:8)     0:4 (-2:4)     0:4 (-2:0)     2:2 (-1:-1)                   2              -9             

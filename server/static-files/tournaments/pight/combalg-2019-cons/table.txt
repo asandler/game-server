@@ -1,0 +1,5 @@
+               AndreyBelyaev. MarkLitvak.py  GlebKashkin.py EgorElushov.cp score          bonus          
+AndreyBelyaev.                4:0 (212:0)    4:0 (4:-2)     4:0 (214:-1)   12             430            
+MarkLitvak.py  0:4 (0:212)                   2:2 (-1:64)    4:0 (2:-2)     6              1              
+GlebKashkin.py 0:4 (-2:4)     2:2 (64:-1)                   2:2 (85:0)     4              147            
+EgorElushov.cp 0:4 (-1:214)   0:4 (-2:2)     2:2 (0:85)                    2              -3             
